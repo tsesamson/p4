@@ -23,6 +23,15 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
+    //Where should the user be redirected to if their login succeeds?
+    protected $redirectPath = '/';
+
+    //Where should the user be redirected to if their login fails?
+    protected $loginPath = '/login';
+
+    //Where shuld the user be redirected to after logging out?
+    protected $redirectAfterLogout = '/';
+
     /**
      * Create a new authentication controller instance.
      *
@@ -42,7 +51,8 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
         ]);
@@ -57,7 +67,8 @@ class AuthController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'first_name' => $data['last_name'],
+            'last_name' => $data['first_name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
