@@ -15,6 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Routes for Authentication Controller
+
+Route::get('/login', 'Auth\AuthController@getLogin');  //Show login form
+Route::post('/login', 'Auth\AuthController@postLogin');  //Process login form
+Route::get('/logout', 'Auth\AuthController@getLogout');  //Process logout
+Route::get('/register', 'Auth\AuthController@getRegister');  //Show registration form
+Route::post('/register', 'Auth\AuthController@postRegister');  //Process registration form
+
 //Debug Route
 Route::get('/debug', function() {
 	echo '<pre>';
