@@ -23,7 +23,20 @@ Route::get('/logout', 'Auth\AuthController@getLogout');  //Process logout
 Route::get('/register', 'Auth\AuthController@getRegister');  //Show registration form
 Route::post('/register', 'Auth\AuthController@postRegister');  //Process registration form
 
-//Debug Route
+// Used to confirm that the authentication is working (can be removed after auth is tested)
+Route::get('/confirm-login', function() {
+	$user = Auth::user();
+
+	if($user) {
+		echo 'You are logged in ';
+		dump($user->toArray());
+	} else {
+		echo 'You are not logged in';
+	}
+	return;
+});
+
+// Debug Route
 Route::get('/debug', function() {
 	echo '<pre>';
 
