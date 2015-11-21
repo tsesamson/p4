@@ -41,3 +41,14 @@ Route::get('/debug', function() {
 
 	echo '</pre>';
 });
+
+//Dev only route to flush db for a fresh restart
+
+if(App::environment('local')) {
+  Route::get('/refresh', function() {
+	DB::statement('DROP database tdb');
+	DB::statement('CREATE database tdb');
+
+	return 'Dropped tdb database; Create tdb database;';
+  });
+};
