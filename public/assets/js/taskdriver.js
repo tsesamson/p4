@@ -91,3 +91,20 @@ function toggle_edit_icon(id) {
 	//e.firstChild.toggleClass('glyphicon-floppy-disk').toggleClass('glyphicon-edit');
 	//button.find('span').toggleClass('glyphicon-edit');
 }
+
+//Function added to test Task save ajax routeEvents
+function onPostClick(event)
+{
+	//Task save should be no ajax so validation can kick in
+	// we're passing data with the post route, as this is more normal
+	$.post('/tasks/create', {TaskDate:'txtTaskDate'}, onSuccess);
+}
+function onSuccess(data, status, xhr)
+{
+	// with our success handler, we're just logging the data...
+	console.log(data, status, xhr);
+	// but you can do something with it if you like - the JSON is deserialised into an object
+	console.log(String(data.value).toUpperCase())
+}
+// listeners
+$('button#btnTaskSave').on('click', onPostClick);

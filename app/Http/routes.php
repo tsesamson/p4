@@ -17,7 +17,6 @@ Route::get('/', function () {
 });
 
 Route::get('/home', 'TaskController@getIndex');  //Show Home page
-Route::get('/task', 'TaskController@getIndex');  //Show Task page
 
 // Routes for Authentication Controller
 
@@ -26,6 +25,29 @@ Route::post('/login', 'Auth\AuthController@postLogin');  //Process login form
 Route::get('/logout', 'Auth\AuthController@getLogout');  //Process logout
 Route::get('/register', 'Auth\AuthController@getRegister');  //Show registration form
 Route::post('/register', 'Auth\AuthController@postRegister');  //Process registration form
+
+// Routes for Tasks
+
+Route::group(['middleware' => 'auth'], function() {
+
+    //Route::get('/tasks/create', 'TaskController@getCreate');
+    //Route::post('/tasks/create', 'TaskController@postCreate');
+
+	// Test POST AJAX route
+	Route::post('/tasks/create', function () {
+		// pass back some data, along with the original data, just to prove it was received
+		$data   = array('value' => 'Output from ajax', 'input' => Request::input());
+		// return a JSON response
+		return  Response::json($data);
+	});
+
+    //Route::get('/tasks/edit/{id?}', 'TaskController@getEdit');
+    //Route::post('/tasks/edit', 'TaskController@postEdit');
+
+    //Route::get('/tasks', 'TaskController@getIndex');
+    //Route::get('/tasks/show/{id?}', 'TaskController@getShow');
+
+});
 
 // Used to confirm that the authentication is working (can be removed after auth is tested)
 Route::get('/confirm-login', function() {

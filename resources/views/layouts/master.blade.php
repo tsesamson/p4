@@ -36,6 +36,9 @@
 				@yield('page-title', "P4: Task Driver")
 			</div>-->
 			
+			<!-- pass through the CSRF (cross-site request forgery) token -->
+			<meta name="csrf-token" content="<?php echo csrf_token() ?>" />
+			
 			@yield('content')
         </div>
    
@@ -45,7 +48,8 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
 		<script src="assets/js/taskdriver.js"></script>
 		<script type="text/javascript">
-			//Custom code if any
+			// set up jQuery with the CSRF token, or else post routes will fail
+			$.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
 		</script>
 	
 	</body>
