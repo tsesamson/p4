@@ -13,7 +13,11 @@
 
 Route::get('/', function () {
     return view('welcome');
+    //return redirect('/login');
 });
+
+Route::get('/home', 'TaskController@getIndex');  //Show Home page
+Route::get('/task', 'TaskController@getIndex');  //Show Task page
 
 // Routes for Authentication Controller
 

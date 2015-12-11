@@ -20,4 +20,5 @@ The demo credential is demo/demo
 * jQuery: https://jquery.com/
 * Bootstrap: http://getbootstrap.com
 * Bootstrap Theme: http://bootswatch.com/flatly/
+* jQuery Highlight v3: http://johannburkard.de/blog/programming/javascript/highlight-javascript-text-higlighting-jquery-plugin.html
 
