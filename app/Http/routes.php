@@ -12,8 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-    //return redirect('/login');
+    //return view('welcome');
+    return redirect('/login');
 });
 
 Route::get('/home', 'TaskController@getIndex');  //Show Home page

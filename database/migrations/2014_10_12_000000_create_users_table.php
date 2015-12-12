@@ -32,7 +32,7 @@ class CreateUsersTable extends Migration
             $table->string('remark');
 	    $table->string('timezone');
             $table->string('last_ip', 60);
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });
