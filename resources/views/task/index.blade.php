@@ -1,35 +1,41 @@
 @extends('layouts.master')
 
 @section('title')
-	P4: Task Driver
+	Task Driver
 @stop
 
 @section('page-title')
-	P4: Task Driver
+	Task Driver
 @stop
 
 @section('content')
 
 @include('layouts.nav.main')
 
-<div class="row">
-	<div class="col-md-12">
 
-	@if(count($errors) > 0)
-		<ul>
-			@foreach($errors->all() as $error)
-				<li>{{ $error }}</li>
-			@endforeach
-		</ul>
-	@endif
-
+@if(count($errors) > 0)
+<div class="container-fluid">
+	<div class="row">
+		<div class="alert alert-danger alert-dismissible fade in" id="flash_message" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span></button>
+			<ul>
+				@foreach($errors->all() as $error)
+					<li>{{ $error }}</li>
+				@endforeach
+			</ul>
+		</div>
 	</div>
 </div>
+@endif
 
 <!--Section for Task creation and timer-->
 
       <div class="container-fluid">
-         <form method="get" action="/">
+         <form method="post" action="/tasks/create">
+			<!-- pass through the CSRF (cross-site request forgery) token -->
+			<input type="hidden" value="{{ csrf_token() }}" name="_token"/>
+			
             <div class="row" style="float:right;">
                <div class="col-lg-12" id="statusMessage" name="statusMessage">
                   logged <strong>6 hours</strong> today - last entry <strong>29 minutes ago</strong>
@@ -53,29 +59,29 @@
                                     <span class="input-group-btn">
                                     <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></button>
                                     </span>
-                                    <input type="text" class="form-control" name="txtTaskDueDate1" id="txtTaskDueDate1" data-provide="datepicker" maxlength="25" placeholder="" value="">
+                                    <input type="text" class="form-control" name="txtInputTaskDueDate" id="txtInputTaskDueDate" data-provide="datepicker" maxlength="25" placeholder="Due Date" value="">
                                  </div>
                               </div>
                            </div>
                            <div class="col-md-1">
                               <div class="col-md-12">
-                                    <input type="text" class="form-control" name="txtDuration1" id="txtDuration1" maxlength="25" placeholder="0:00" value="">
+                                    <input type="text" class="form-control" name="txtInputDuration" id="txtInputDuration" maxlength="25" placeholder="0:00" value="">
                               </div>
                            </div>
                            <div class="col-md-3">
                               <div class="col-md-12">
-                                 <input type="text" class="form-control" name="txtProjectName1" id="txtProjectName1" maxlength="255" placeholder="Project Name" value="">
+                                 <input type="text" class="form-control" name="txtInputProjectName" id="txtInputProjectName" maxlength="255" placeholder="Project Name" value="">
                               </div>
                            </div>
                            <div class="col-md-5">
                               <div class="col-md-12">
-                                 <input type="text" class="form-control" name="txtTaskDescription1" id="txtTaskDescription1" maxlength="255" placeholder="Tags or Description">
+                                 <input type="text" class="form-control" name="txtInputTaskDescription" id="txtInputTaskDescription" maxlength="255" placeholder="Tags or Description">
                               </div>
                            </div>
                            <div class="col-md-1">
                               <div class="col-md-12">
                                  <div class="btn-toolbar" role="toolbar">
-                                    <button type="button" class="btn btn-default" name="btnTaskSave1" id="btnTaskSave1"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
+                                    <button type="submit" class="btn btn-default" name="btnInputTaskSubmit" id="btnInputTaskSubmit"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
                                  </div>
                               </div>
                            </div>

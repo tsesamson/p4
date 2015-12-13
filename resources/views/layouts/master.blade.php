@@ -36,9 +36,6 @@
 				@yield('page-title', "P4: Task Driver")
 			</div>-->
 			
-			<!-- pass through the CSRF (cross-site request forgery) token -->
-			<meta name="csrf-token" content="<?php echo csrf_token() ?>" />
-			
 			@yield('content')
         </div>
    
@@ -49,7 +46,7 @@
 		<script src="assets/js/taskdriver.js"></script>
 		<script type="text/javascript">
 			// set up jQuery with the CSRF token, or else post routes will fail
-			$.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+			$.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content') } });
 		</script>
 	
 	</body>

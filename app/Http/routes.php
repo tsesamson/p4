@@ -31,15 +31,15 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('/home', 'TaskController@getIndex');  //Show Home page
 
     //Route::get('/tasks/create', 'TaskController@getCreate');
-    //Route::post('/tasks/create', 'TaskController@postCreate');
+    Route::post('/tasks/create', 'TaskController@postCreate');
 
 	// Test POST AJAX route
-	Route::post('/tasks/create', function () {
+	/*Route::post('/tasks/create', function () {
 		// pass back some data, along with the original data, just to prove it was received
 		$data   = array('value' => 'Output from ajax', 'input' => Request::input());
 		// return a JSON response
 		return  Response::json($data);
-	});
+	});*/
 
     //Route::get('/tasks/edit/{id?}', 'TaskController@getEdit');
     //Route::post('/tasks/edit', 'TaskController@postEdit');

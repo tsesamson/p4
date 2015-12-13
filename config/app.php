@@ -144,9 +144,10 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+		App\Providers\ComposerServiceProvider::class,
 
-	//Packages I added
-	Barryvdh\Debugbar\ServiceProvider::class,
+		//Packages I added
+		Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
@@ -197,10 +198,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
 
-	//Aliases for packages I added
-	'Debugbar' => Barryvdh\Debugbar\Facade::class,
-	'LIGenerator' => 'Badcow\LoremIpsum\Generator',
-	'FakerGenerator' => 'Faker\Factory',
+		//Aliases for packages I added
+		'Debugbar' => Barryvdh\Debugbar\Facade::class,
+		'LIGenerator' => 'Badcow\LoremIpsum\Generator',
+		'FakerGenerator' => 'Faker\Factory',
     ],
 
 ];
