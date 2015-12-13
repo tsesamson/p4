@@ -36,4 +36,9 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+	
+    public function task() {
+		# User has many Tasks (one-to-many)
+		return $this->hasMany('\App\Task');
+	}
 }
