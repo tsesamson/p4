@@ -21,12 +21,11 @@ class CreateTasksTable extends Migration
 			# This generates two columns: 'created_at' and 'updated_at'
 			$table->timestamps();
 
-			# Create fields to keep track of which user owns, created or updated the task
 			$table->integer('project_id')->unsigned();
-			$table->foreign('project_id')->references('id')->on('projects');
+			$table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
 			
 			$table->integer('user_id')->unsigned();
-			$table->foreign('user_id')->references('id')->on('users');
+			//$table->foreign('user_id')->references('id')->on('users');
 
 			$table->integer('assigned_to')->unsigned();
 			//$table->foreign('assigned_to')->references('id')->on('users');

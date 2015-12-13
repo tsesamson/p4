@@ -17,24 +17,55 @@
 	<body>
 	
         <div class="container">
-		
+			
+			<!--<div class="title">
+				@yield('page-title', "P4: Task Driver")
+			</div>-->
+			@if($user)
+				@include('layouts.nav.main')
+			@endif
+
+			@foreach (['danger', 'warning', 'success', 'info'] as $msg)
+			  @if(Session::has('alert-' . $msg))
+				<div class="container-fluid">
+					<div class="row">
+						   <div class="alert alert-{{ $msg }} alert-dismissible fade in" id="flash_message" role="alert">
+							  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							  <span aria-hidden="true">&times;</span></button>
+							  {{ Session::get('alert-' . $msg) }}
+						   </div>
+					 </div>           
+				</div>
+			  @endif
+			@endforeach
+			
 			@if(Session::has('flash_message'))
-            <div class="container-fluid">
+			<div class="container-fluid">
 				<div class="row">
-					<!--<div class="page-header" style="border-bottom:0px;">-->
 						<! --{{ Session::get('alert-class', 'alert-info') }} -->
 					   <div class="alert alert-warning alert-dismissible fade in" id="flash_message" role="alert">
 						  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 						  <span aria-hidden="true">&times;</span></button>{{ Session::get('flash_message') }}
 					   </div>
-					<!--</div>-->
 				 </div>           
-            </div>
+			</div>
 			@endif
-			
-			<!--<div class="title">
-				@yield('page-title', "P4: Task Driver")
-			</div>-->
+
+			@if(count($errors) > 0)
+			<div class="container-fluid">
+				<div class="row">
+					<div class="alert alert-danger alert-dismissible fade in" id="flash_message" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span></button>
+						<ul>
+							@foreach($errors->all() as $error)
+								<li>{{ $error }}</li>
+							@endforeach
+						</ul>
+					</div>
+				</div>
+			</div>
+			@endif
 			
 			@yield('content')
         </div>

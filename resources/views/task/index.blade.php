@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-	Task Driver
+	Task Driver - Log Time
 @stop
 
 @section('page-title')
@@ -9,25 +9,6 @@
 @stop
 
 @section('content')
-
-@include('layouts.nav.main')
-
-
-@if(count($errors) > 0)
-<div class="container-fluid">
-	<div class="row">
-		<div class="alert alert-danger alert-dismissible fade in" id="flash_message" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span></button>
-			<ul>
-				@foreach($errors->all() as $error)
-					<li>{{ $error }}</li>
-				@endforeach
-			</ul>
-		</div>
-	</div>
-</div>
-@endif
 
 <!--Section for Task creation and timer-->
 
@@ -47,7 +28,7 @@
                   <!-- Navigation bar above input box-->
                   <ul class="nav nav-tabs">
                      <li role="presentation" class="active"><a href="#">Task</a></li>
-                     <li role="presentation"><a href="#">Activities</a></li>
+                     <li role="presentation"><a href="#">Activity</a></li>
                   </ul>
                   <div class="panel panel-default" id="taskTimer" style="margin-top:15px;">
                      <!--<div class="panel-heading"><h2 class="panel-title">Task</h2></div>-->

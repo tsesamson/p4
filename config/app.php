@@ -199,6 +199,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 
 		//Aliases for packages I added
+		'Helper'   => 'App\Helpers\Helper',
 		'Debugbar' => Barryvdh\Debugbar\Facade::class,
 		'LIGenerator' => 'Badcow\LoremIpsum\Generator',
 		'FakerGenerator' => 'Faker\Factory',

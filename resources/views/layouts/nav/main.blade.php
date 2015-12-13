@@ -13,8 +13,8 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                <ul class="nav navbar-nav">
-                  <li class="active"><a href="#">Log Time <span class="sr-only">(current)</span></a></li>
-                  <li><a href="#">Projects</a></li>
+                  <li class="{{ Helper::set_active(['home','tasks','tasks/*','tasks/show/*']) }}"><a href="/home">Log Time <span class="sr-only">(current)</span></a></li>
+                  <li class="{{ Helper::set_active(['projects','projects/*','projects/show/*']) }}"><a href="/projects">Projects</a></li>
                   <li><a href="#">Reports</a></li>
                </ul>
                <form class="navbar-form navbar-left" role="search">

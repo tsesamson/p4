@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Tag as Tag;
+use App\Project as Project;
 use App\Task as Task;
 use App\Helpers\Helper as Helper;
-use App\Project as Project;
 use Debugbar;
 
-class TaskController extends Controller
+class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +21,11 @@ class TaskController extends Controller
      */
     public function getIndex()
     {
-        return view('task.index');
+		//Debugbar::info(\Auth::id());
+		// Return a collection of all the projects for the user
+		$projects = Project::where('user_id','=',\Auth::id())->orderBy('due_date', 'desc')->get();
+		
+		return view('project.index')->with('projects', $projects);
     }
 	
 	public function postCreate(Request $request)
@@ -66,28 +70,25 @@ class TaskController extends Controller
 			$task->project_id = $project->id;
 		}		
 
-		$hashTags = array();
 		if(isset($_POST['txtInputTaskDescription'])) {
-			$hashTags = Helper::create()->getTagsFromString($request->input('txtInputTaskDescription'));  // Get the hashtags from description
+			$hashtags = Helper::create()->getTagsFromString($request->input('txtInputTaskDescription'));  // Get the hashtags from description
 			$task->description = $request->input('txtInputTaskDescription'); // Get the post field from request object
 		}
 
 		//Make sure the saving is done in a transaction so any error will be rollback
-		\DB::transaction(function() use ($project, $task, $hashTags) {
-			//$project = $project->save();  // Project needs to exists first
-			$project->save();  // Project needs to exists first
-			Project::find($project->id)->task()->save($task); // Task is saved to existing Project record
-			
+		\DB::transaction(function() use ($project, $task, $hashtags) {
+			$project = $project->save();  // Project needs to exists first
+			\App\Project::find($project->id)->task()->save($task); // Task is saved to existing Project record
 			
 			// TODO: loop thru $hashtags array and insert the tags
 			foreach($hashTags as $tagName){
-				$tag = Tag::where('name', '=', $tagName)
+				$tag = \App\Tag::where('name', '=', $tagName)
 					->where('user_id', '=', \Auth::id())->first();
 				
 				if($tag) {
 					$task->tags()->save($tag);  // Save tag to task
 				} else {
-					$tag = new Tag();  // Create new tag
+					$tag = new \App\Tag();  // Create new tag
 					$tag->name = $tagName;
 					$tag->user_id = \Auth::id();
 					$task->tags()->save($tag);
@@ -95,23 +96,17 @@ class TaskController extends Controller
 				}
 			}
 			
-			//$task->user_id = \Auth::id();
-			//$task->user()->associate(\Auth::user());
-			//$task->save(); //Save the record to Task table
-			
-			//\Session::flash('flash_message',"Task added successfully for '" + $project->name + "'.");
 		});
 		
-		$request->session()->flash('alert-success', "Task added successfully for '" . $project->name . "'.");
 		
-		// Return a collection of all the tasks for the user
-		$tasks = Task::where('user_id','=',\Auth::id())->orderBy('due_date', 'desc')->get();
+		// Return a collection of all the projects for the user
+		$projects = Project::where('user_id','=',\Auth::id())->orderBy('due_date', 'desc');
 		
 
-		$request->flash();	//Send value of input back to form
+		// $request->flash();	//Send value of input back to form
 		// TODO: Send flash message after save/creation
 		
-		return view('task.index')->with('tasks', $tasks);
+		return view('project.index')->with('projects', $projects);
 	}
 
     /**
@@ -175,8 +170,19 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function getDelete($id)
     {
-        //
+        $project = Project::where('id', '=', $id)
+			->where('user_id', '=', \Auth::id())
+			->first();
+			
+		\Session::flash('flash_message',"Project '" + $project->name + "' has been deleted.");
+			
+		$project->delete(); // Delete the project
+		
+		// Return a collection of all the projects for the user
+		$projects = Project::where('user_id','=',\Auth::id())->orderBy('due_date', 'desc')->get();
+		
+		return view('project.index')->with('projects', $projects);
     }
 }

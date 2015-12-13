@@ -23,7 +23,7 @@ class CreateProjectsTable extends Migration
 
 			# Create fields to keep track of which user owns, created or updated the project
 			$table->integer('user_id')->unsigned();
-			$table->foreign('user_id')->references('id')->on('users');
+			//$table->foreign('user_id')->references('id')->on('users');
 
 			$table->integer('created_by')->unsigned();
 			//$table->foreign('created_by')->references('id')->on('users');

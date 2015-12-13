@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use Debugbar;
+
 class Helper
 {
     /*
@@ -58,6 +60,9 @@ class Helper
         return false;
     }
 	
+	/*
+	 * Convert the text in duration format to seconds
+	 */
 	public function getDurationInSeconds($string){
 		$result = 0;
 		
@@ -101,5 +106,32 @@ class Helper
 		}
 
 		return $result;
+	}
+	
+	/*
+	 * Get the hashtags from within a string 
+	 */
+	public function getTagsFromString($string) {
+		$result = array();
+		
+		if(strlen($string)>0){
+			preg_match_all('/#([^\s]+)/', $string, $matches);
+			$hashTags = implode(',', $matches[1]);
+
+			$result = explode(',', $hashTags); // Split the comma separated list into array
+			//preg_match("/(#\S+@\S+\.\S+)|(\B#\w+)/", $string, $result);
+		}
+		
+		return $result;
+	}
+	
+	/*
+	 * Method used to define the active navigation in blade views
+	 */
+	public static function set_active($path, $active = 'active') {
+
+		//Debugbar::info(\Request::is);
+		return call_user_func_array('Request::is', (array)$path) ? $active : '';
+
 	}
 }

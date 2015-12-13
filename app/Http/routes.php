@@ -29,7 +29,11 @@ Route::post('/register', 'Auth\AuthController@postRegister');  //Process registr
 Route::group(['middleware' => 'auth'], function() {
 
 	Route::get('/home', 'TaskController@getIndex');  //Show Home page
-
+	
+	//Project Routes
+	Route::get('/projects', 'ProjectController@getIndex');  //Show Project list
+	Route::get('/projects/delete/{id?}', 'ProjectController@getDelete');
+	
     //Route::get('/tasks/create', 'TaskController@getCreate');
     Route::post('/tasks/create', 'TaskController@postCreate');
 
