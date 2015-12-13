@@ -16,8 +16,6 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
-Route::get('/home', 'TaskController@getIndex');  //Show Home page
-
 // Routes for Authentication Controller
 
 Route::get('/login', 'Auth\AuthController@getLogin');  //Show login form
@@ -29,6 +27,8 @@ Route::post('/register', 'Auth\AuthController@postRegister');  //Process registr
 // Routes for Tasks
 
 Route::group(['middleware' => 'auth'], function() {
+
+	Route::get('/home', 'TaskController@getIndex');  //Show Home page
 
     //Route::get('/tasks/create', 'TaskController@getCreate');
     //Route::post('/tasks/create', 'TaskController@postCreate');

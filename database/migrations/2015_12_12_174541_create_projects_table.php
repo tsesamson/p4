@@ -32,10 +32,10 @@ class CreateProjectsTable extends Migration
 			$table->foreign('updated_by')->references('id')->on('users');
 
 			# Rest of the project fields
-			$table->integer('status_id')->unsigned();
+			$table->integer('status_id')->unsigned()->default(0);
 			$table->string('name');
 			$table->text('description');
-			$table->integer('duration')->unsigned();
+			$table->integer('duration')->unsigned()->default(0);
 			$table->datetime('start_date');
 			$table->datetime('due_date');
 			$table->string('comment');

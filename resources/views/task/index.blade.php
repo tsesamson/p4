@@ -53,29 +53,29 @@
                                     <span class="input-group-btn">
                                     <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></button>
                                     </span>
-                                    <input type="text" class="form-control" name="txtTaskDate" id="txtTaskDate" data-provide="datepicker" maxlength="25" placeholder="" value="">
+                                    <input type="text" class="form-control" name="txtTaskDueDate1" id="txtTaskDueDate1" data-provide="datepicker" maxlength="25" placeholder="" value="">
                                  </div>
                               </div>
                            </div>
                            <div class="col-md-1">
                               <div class="col-md-12">
-                                    <input type="text" class="form-control" name="txtDuration" id="txtDuration" maxlength="25" placeholder="0:00" value="">
+                                    <input type="text" class="form-control" name="txtDuration1" id="txtDuration1" maxlength="25" placeholder="0:00" value="">
                               </div>
                            </div>
                            <div class="col-md-3">
                               <div class="col-md-12">
-                                 <input type="text" class="form-control" name="txtProjectName" id="txtProjectName" maxlength="255" placeholder="Project Name" value="">
+                                 <input type="text" class="form-control" name="txtProjectName1" id="txtProjectName1" maxlength="255" placeholder="Project Name" value="">
                               </div>
                            </div>
                            <div class="col-md-5">
                               <div class="col-md-12">
-                                 <input type="text" class="form-control" name="txtTaskDescription" id="txtTaskDescription" maxlength="255" placeholder="Tags or Description">
+                                 <input type="text" class="form-control" name="txtTaskDescription1" id="txtTaskDescription1" maxlength="255" placeholder="Tags or Description">
                               </div>
                            </div>
                            <div class="col-md-1">
                               <div class="col-md-12">
                                  <div class="btn-toolbar" role="toolbar">
-                                    <button type="button" class="btn btn-default" name="btnTaskSave" id="btnTaskSave"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
+                                    <button type="button" class="btn btn-default" name="btnTaskSave1" id="btnTaskSave1"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
                                  </div>
                               </div>
                            </div>

@@ -11,6 +11,34 @@ class TimersTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+		DB::table('timers')->insert([
+			'created_at' => Carbon\Carbon::now()->toDateTimeString(),
+			'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
+			'duration' => 90,
+			'task_id' => 1,
+			'created_by' => 1,
+			'updated_by' => 1,
+			'comment' => '',
+		]);   
+		
+		DB::table('timers')->insert([
+			'created_at' => Carbon\Carbon::now()->toDateTimeString(),
+			'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
+			'duration' => 225,
+			'task_id' => 1,
+			'created_by' => 1,
+			'updated_by' => 1,
+		]);   
+		
+		DB::table('timers')->insert([
+			'created_at' => Carbon\Carbon::now()->toDateTimeString(),
+			'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
+			'duration' => 1234,
+			'task_id' => 1,
+			'created_by' => 1,
+			'updated_by' => 1,
+			'comment' => 'Took some time but I figured it out.',
+		]);   
     }
 }
+

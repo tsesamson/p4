@@ -14,32 +14,54 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-    	for ($i = 0; $i < 10; $i++) {
-          //Create fake users
-	  $faker = FakerGenerator::create(); //Create the Faker object for user generation
+		//My test users
+		$user = User::firstOrCreate(['email' => 'tse.samson@gmail.com']);
+		$user->name = 'Samson';
+		$user->email = 'tse.samson@gmail.com';
+		$user->password = \Hash::make('100216910');
+		$user->save();
+		
+		// Default users required by P4
+		$user = User::firstOrCreate(['email' => 'jill@harvard.edu']);
+		$user->name = 'Jill';
+		$user->email = 'jill@harvard.edu';
+		$user->password = \Hash::make('helloworld');
+		$user->save();
 
-	  $user = User::firstOrCreate(['email' => $faker->email]);
-	  
-	  $user->title = $faker->title;
-	  $user->first_name = $faker->firstName;
-	  $user->last_name = $faker->lastName;
-	  $user->gender = '';
-	  $user->user_name = $faker->userName;
-	  $user->company = $faker->company;
-	  $user->password = \Hash::make('helloworld');
-	  $user->last_ip = $faker->ipv4;
-	  $user->is_active = 1;
-	  $user->address1 = $faker->streetAddress;
-	  $user->address2 = $faker->secondaryAddress;
-	  $user->city = $faker->city;
-	  $user->state = $faker->state;
-	  $user->country = $faker->country;
-	  $user->postal = $faker->postcode;
-	  $user->telephone = $faker->phoneNumber;
-	  $user->remark = '';
-	  $user->timezone = $faker->timezone;
+		$user = User::firstOrCreate(['email' => 'jamal@harvard.edu']);
+		$user->name = 'Jamal';
+		$user->email = 'jamal@harvard.edu';
+		$user->password = \Hash::make('helloworld');
+		$user->save();
+		
+		
+		for ($i = 0; $i < 10; $i++) {
+			
+			// Create fake users
+			$faker = FakerGenerator::create(); //Create the Faker object for user generation
 
-	  $user->save();
-	}
+			$user = User::firstOrCreate(['email' => $faker->email]);
+
+			$user->title = $faker->title;
+			$user->first_name = $faker->firstName;
+			$user->last_name = $faker->lastName;
+			$user->gender = '';
+			$user->user_name = $faker->userName;
+			$user->company = $faker->company;
+			$user->password = \Hash::make('helloworld');
+			$user->last_ip = $faker->ipv4;
+			$user->is_active = 1;
+			$user->address1 = $faker->streetAddress;
+			$user->address2 = $faker->secondaryAddress;
+			$user->city = $faker->city;
+			$user->state = $faker->state;
+			$user->country = $faker->country;
+			$user->postal = $faker->postcode;
+			$user->telephone = $faker->phoneNumber;
+			$user->remark = '';
+			$user->timezone = $faker->timezone;
+
+			$user->save();
+		}
     }
 }
