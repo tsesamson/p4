@@ -26,10 +26,10 @@ class CreateProjectsTable extends Migration
 			$table->foreign('user_id')->references('id')->on('users');
 
 			$table->integer('created_by')->unsigned();
-			$table->foreign('created_by')->references('id')->on('users');
+			//$table->foreign('created_by')->references('id')->on('users');
 
 			$table->integer('updated_by')->unsigned();
-			$table->foreign('updated_by')->references('id')->on('users');
+			//$table->foreign('updated_by')->references('id')->on('users');
 
 			# Rest of the project fields
 			$table->integer('status_id')->unsigned()->default(0);
@@ -47,7 +47,7 @@ class CreateProjectsTable extends Migration
 			# Add basic index to name
 			$table->index('name');
 
-		}
+		});
     }
 
     /**
@@ -57,9 +57,9 @@ class CreateProjectsTable extends Migration
      */
     public function down()
     {
-    	$table->dropForeign('projects_user_id_foreign');
-    	$table->dropForeign('projects_created_by_foreign');
-    	$table->dropForeign('projects_updated_by_foreign');
+    	//$table->dropForeign('projects_user_id_foreign');
+    	//$table->dropForeign('projects_created_by_foreign');
+    	//$table->dropForeign('projects_updated_by_foreign');
 
         Schema::drop('projects');
     }

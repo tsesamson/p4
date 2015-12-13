@@ -29,13 +29,13 @@ class CreateTasksTable extends Migration
 			$table->foreign('user_id')->references('id')->on('users');
 
 			$table->integer('assigned_to')->unsigned();
-			$table->foreign('assigned_to')->references('id')->on('users');
+			//$table->foreign('assigned_to')->references('id')->on('users');
 			
 			$table->integer('created_by')->unsigned();
-			$table->foreign('created_by')->references('id')->on('users');
+			//$table->foreign('created_by')->references('id')->on('users');
 
 			$table->integer('updated_by')->unsigned();
-			$table->foreign('updated_by')->references('id')->on('users');
+			//$table->foreign('updated_by')->references('id')->on('users');
 
 			# Rest of the task fields
 			$table->integer('status_id')->unsigned()->default(0);
@@ -51,7 +51,7 @@ class CreateTasksTable extends Migration
 			# For soft delete
 			$table->softDeletes();
 
-		}
+		});
     }
 
     /**
@@ -61,11 +61,11 @@ class CreateTasksTable extends Migration
      */
     public function down()
     {
-		$table->dropForeign('tasks_project_id_foreign');
-    	$table->dropForeign('tasks_user_id_foreign');
-		$table->dropForeign('tasks_assigned_to_foreign');
-    	$table->dropForeign('tasks_created_by_foreign');
-    	$table->dropForeign('tasks_updated_by_foreign');
+		//$table->dropForeign('tasks_project_id_foreign');
+    	//$table->dropForeign('tasks_user_id_foreign');
+		//$table->dropForeign('tasks_assigned_to_foreign');
+    	//$table->dropForeign('tasks_created_by_foreign');
+    	//$table->dropForeign('tasks_updated_by_foreign');
 
         Schema::drop('tasks');
     }

@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('last_name', 150);
             $table->string('gender', 10);
             $table->string('user_name', 50);
-	    $table->string('company', 255);
+			$table->string('company', 255);
             $table->string('email')->unique();
             $table->string('password', 60);
             $table->string('address1', 255);
@@ -30,7 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('postal', 25);
             $table->string('telephone', 50);
             $table->string('remark');
-	    $table->string('timezone');
+			$table->string('timezone');
             $table->string('last_ip', 60);
             $table->boolean('is_active')->default(1);
             $table->rememberToken();

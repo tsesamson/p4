@@ -21,7 +21,7 @@ class CreateTagsTable extends Migration
 			
 			$table->string('name');
 			
-		}
+		});
     }
 
     /**
@@ -31,7 +31,7 @@ class CreateTagsTable extends Migration
      */
     public function down()
     {
-		$table->dropForeign('tags_user_id_foreign');
+		//$table->dropForeign('tags_user_id_foreign');
 		
         Schema::drop('tags');
     }

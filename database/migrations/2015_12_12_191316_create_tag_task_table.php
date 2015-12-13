@@ -22,7 +22,7 @@ class CreateTagTaskTable extends Migration
 			$table->integer('task_id')->unsigned();
 			$table->foreign('task_id')->references('id')->on('tasks');
 			
-		}
+		});
     }
 
     /**
@@ -32,8 +32,8 @@ class CreateTagTaskTable extends Migration
      */
     public function down()
     {
-        $table->dropForeign('tag_task_tag_id_foreign');
-		$table->dropForeign('tag_task_task_id_foreign');
+        //$table->dropForeign('tag_task_tag_id_foreign');
+		//$table->dropForeign('tag_task_task_id_foreign');
 		
         Schema::drop('tag_task');
     }
