@@ -24,18 +24,20 @@ Route::get('/logout', 'Auth\AuthController@getLogout');  //Process logout
 Route::get('/register', 'Auth\AuthController@getRegister');  //Show registration form
 Route::post('/register', 'Auth\AuthController@postRegister');  //Process registration form
 
-// Routes for Tasks
+// Routes protected by authentication middleware
 
 Route::group(['middleware' => 'auth'], function() {
 
 	Route::get('/home', 'TaskController@getIndex');  //Show Home page
 	
-	//Project Routes
+	//P roject Routes
 	Route::get('/projects', 'ProjectController@getIndex');  //Show Project list
 	Route::get('/projects/delete/{id?}', 'ProjectController@getDelete');
 	
+	// Task Routes
     //Route::get('/tasks/create', 'TaskController@getCreate');
     Route::post('/tasks/create', 'TaskController@postCreate');
+	Route::post('/tasks/search', 'TaskController@postSearch');
 
 	// Test POST AJAX route
 	/*Route::post('/tasks/create', function () {

@@ -23,7 +23,7 @@ class CreateTimersTable extends Migration
 
 			# Create fields to keep track of which user created or updated the timer
 			$table->integer('task_id')->unsigned();
-			$table->foreign('task_id')->references('id')->on('tasks');
+			$table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
 			
 			$table->integer('created_by')->unsigned();
 			//$table->foreign('created_by')->references('id')->on('users');

@@ -175,8 +175,9 @@ class ProjectController extends Controller
         $project = Project::where('id', '=', $id)
 			->where('user_id', '=', \Auth::id())
 			->first();
-			
-		\Session::flash('flash_message',"Project '" + $project->name + "' has been deleted.");
+		
+		// Set the flash message for completing the deletion
+		\Session::flash('alert-success', "Project '" . $project->name . "' deleted successfully.");
 			
 		$project->delete(); // Delete the project
 		

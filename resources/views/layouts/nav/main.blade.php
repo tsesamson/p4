@@ -17,9 +17,10 @@
                   <li class="{{ Helper::set_active(['projects','projects/*','projects/show/*']) }}"><a href="/projects">Projects</a></li>
                   <li><a href="#">Reports</a></li>
                </ul>
-               <form class="navbar-form navbar-left" role="search">
+               <form class="navbar-form navbar-left" role="search" method="post" action="/tasks/search">
                   <div class="form-group">
-                     <input type="text" class="form-control" placeholder="Search by tag">
+					<input type="hidden" value="{{ csrf_token() }}" name="_token"/>
+                     <input type="text" id="txtHashTagSearch" name="txtHashTagSearch" class="form-control" placeholder="Search by tag">
                   </div>
                   <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                </form>

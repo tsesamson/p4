@@ -99,9 +99,9 @@ class TaskController extends Controller
 			//$task->user()->associate(\Auth::user());
 			//$task->save(); //Save the record to Task table
 			
-			//\Session::flash('flash_message',"Task added successfully for '" + $project->name + "'.");
 		});
 		
+		// Set the flash message for completing the save
 		$request->session()->flash('alert-success', "Task added successfully for '" . $project->name . "'.");
 		
 		// Return a collection of all the tasks for the user
@@ -114,6 +114,37 @@ class TaskController extends Controller
 		return view('task.index')->with('tasks', $tasks);
 	}
 
+    /**
+     * Display all tasks with specific hashtag
+     *
+     * @param  varchar  $tag
+     * @return \Illuminate\Http\Response
+     */
+    public function postSearch(Request $request)
+    {
+		$hashTag = "";
+		
+		if(isset($_POST['txtHashTagSearch'])) {
+				$hashTag = $request->input('txtHashTagSearch');
+		}
+		
+		// Return a collection of all the tasks for the user with specific hashtag
+		$tags = Tag::with('tasks.project')->where('user_id','=',\Auth::id())->where('name','=',$hashTag)->get();
+		
+		$request->flash();	//Send value of input back to form
+		
+		Debugbar::info($tags);
+		$tasks = array(); // Array to hold all tasks from search result
+		
+		foreach($tags as $tag){
+			foreach($tag->tasks as $task){
+				array_push($tasks, $task);
+			}
+		}
+		
+		return view('task.search')->with('tasks', $tasks)->with('hashTag', $hashTag);
+    }
+	
     /**
      * Show the form for creating a new resource.
      *
