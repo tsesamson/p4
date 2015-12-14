@@ -61,7 +61,7 @@
                            <div class="col-md-2">
                               <div class="col-md-12">
                                  <div class="input-group">
-                                    <input type="text" class="form-control" name="txtTaskDuration{{$task->id}}" maxlength="25" placeholder="0:00" value="{{$task->duration}}">
+                                    <input type="text" class="form-control" name="txtTaskDuration{{$task->id}}" maxlength="25" placeholder="0:00" value="{{$task->duration()}}">
                                     <span class="input-group-btn">
                                     <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
                                     <a class="btn btn-default" role="button" data-toggle="collapse" data-parent="#taskTimer" href="#collapseTimerHistory" aria-expanded="false" aria-controls="collapseTimerHistoryGroup"><span class="glyphicon glyphicon-time"></span></a>

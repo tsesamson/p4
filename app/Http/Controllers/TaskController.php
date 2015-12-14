@@ -35,13 +35,19 @@ class TaskController extends Controller
 
 		$task = new Task();
 		
+		// Associate this user with all the proper user_id fields
+		$task->user_id = \Auth::id();
+		$task->created_by = \Auth::id();
+		$task->updated_by = \Auth::id();
+		//$task->assigned_to = \Auth::id();
+		
 		// Manually check duration field for error
 		if(isset($_POST['txtInputDuration'])) {
-			if(Helper::create()->checkDuration($_POST['txtInputDuration'])){
-				$this->validate->getMessageBag()->add('duration', 'Duration format is incorrect (i.e. 0:00:00).');
-			} else {
+			//if(Helper::create()->checkDuration($_POST['txtInputDuration'])){
+			//	$this->validate->getMessageBag()->add('duration', 'Duration format is incorrect (i.e. 0:00:00).');
+			//} else {
 				$task->duration = Helper::create()->getDurationInSeconds($request->input('txtInputDuration'));
-			}
+			//}
 		}
 
 		$data = $request->all();	// Get all the request value to pass back to view
@@ -60,6 +66,8 @@ class TaskController extends Controller
 				$project = new Project();
 				$project->name = $request->input('txtInputProjectName');
 				$project->user_id = \Auth::id();
+				$project->created_by = \Auth::id();
+				$project->updated_by = \Auth::id();
 				
 			}
 			
@@ -79,7 +87,7 @@ class TaskController extends Controller
 			Project::find($project->id)->task()->save($task); // Task is saved to existing Project record
 			
 			
-			// TODO: loop thru $hashtags array and insert the tags
+			// TODO: If tag name is an email, add user to assigned_to field
 			foreach($hashTags as $tagName){
 				$tag = Tag::where('name', '=', $tagName)
 					->where('user_id', '=', \Auth::id())->first();

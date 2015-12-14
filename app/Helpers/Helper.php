@@ -67,7 +67,7 @@ class Helper
 		$result = 0;
 		
 		// If it is a single number and it is less than 24 then it is just hours
-		if(is_numeric($string)) {
+		if(is_numeric($string) && !startsWith($string, '0:') && !startsWith($string, '00:')) {
 			if(intval($string)>0 && intval($string)<24) { 
 				return intval($string)*60*60; //Convert hours to seconds
 			}
@@ -93,7 +93,7 @@ class Helper
 			if(is_numeric($durationArray[0]) && is_numeric($durationArray[1]) && is_numeric($durationArray[2])) {
 				if(intval($durationArray[0])>=0 && intval($durationArray[0])<24) {
 					if(intval($durationArray[1])>=0 && intval($durationArray[1])<60) {
-						if(intval($durationArray[2])>00 && intval($durationArray[2])<60) {
+						if(intval($durationArray[2])>=0 && intval($durationArray[2])<60) {
 							$result += intval($durationArray[0])*60*60; // Convert hours to seconds
 							$result += intval($durationArray[1])*60; // Convert minutes to seconds
 							$result += intval($durationArray[2]); // Add final seconds
@@ -104,6 +104,29 @@ class Helper
 				}
 			}				
 		}
+
+		return $result;
+	}
+	
+	/*
+	 * Convert seconds to text in duration format 
+	 */
+	public function getSecondsInDuration($seconds){
+		$result = '';
+		
+		if($seconds == 0){
+			return $result;
+		}
+		
+		// Make sure $seconds is numeric
+		if(is_numeric($seconds)) {
+			$hours = floor($seconds / 3600);
+			$mins = floor(($seconds - ($hours*3600)) / 60);
+			$secs = floor($seconds % 60);
+			
+			return strval($hours) . ':' . str_pad(strval($mins), 2, "0", STR_PAD_LEFT) . ':' . str_pad(strval($secs), 2, "0", STR_PAD_LEFT);
+		}
+		
 
 		return $result;
 	}
