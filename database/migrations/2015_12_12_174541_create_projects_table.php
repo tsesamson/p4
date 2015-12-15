@@ -32,7 +32,8 @@ class CreateProjectsTable extends Migration
 			//$table->foreign('updated_by')->references('id')->on('users');
 
 			# Rest of the project fields
-			$table->integer('status_id')->unsigned()->default(0);
+			//$table->integer('status_id')->unsigned()->default(0);
+			$table->enum('status', ['completed', 'initialized', 'pending', 'approved', 'rejected'])->default('initialized');
 			$table->string('name');
 			$table->text('description');
 			$table->integer('duration')->unsigned()->default(0);

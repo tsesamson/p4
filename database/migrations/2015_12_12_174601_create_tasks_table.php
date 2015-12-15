@@ -37,8 +37,10 @@ class CreateTasksTable extends Migration
 			//$table->foreign('updated_by')->references('id')->on('users');
 
 			# Rest of the task fields
-			$table->integer('status_id')->unsigned()->default(0);
-			$table->integer('priority_id')->unsigned()->default(0);
+			//$table->integer('status_id')->unsigned()->default(0);
+			$table->enum('status', ['completed', 'initialized', 'pending', 'approved', 'rejected'])->default('initialized');
+			//$table->integer('priority_id')->unsigned()->default(0);
+			$table->enum('priority', ['high', 'medium', 'low'])->default('low');
 			$table->string('name');
 			$table->text('description');
 			$table->integer('duration')->unsigned()->default(0);

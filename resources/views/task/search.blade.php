@@ -56,6 +56,7 @@
                            <div class="col-md-2">
                               <div class="col-md-12">
                               	<strong>{{$task->project->name}}</strong>
+								<h5>{{ $task->due_date }}</h5>
                               </div>
                            </div>
                            <div class="col-md-2">
