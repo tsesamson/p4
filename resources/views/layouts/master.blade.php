@@ -76,8 +76,9 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
 		<script src="/assets/js/taskdriver.js"></script>
 		<script type="text/javascript">
+			$_token = "{{ csrf_token() }}";
 			// set up jQuery with the CSRF token, or else post routes will fail
-			$.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('input[name="csrf-token"]').attr('content') } });
+			$.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('#csrf_token').val() } });
 		</script>
 	
 	</body>

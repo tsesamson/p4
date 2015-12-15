@@ -62,6 +62,20 @@ $('body').highlight(/(#\S+@\S+\.\S+)|(\B#\w+)/)  //Both #tag and #email
 //$('body').highlight(/\B#\w+/) //#tag only
 //$('body').highlight(/\#S+@\S+\.\S+/) //#email only
 
+function saveProjectStatus(id, stat) {
+	$.post('/projects/status/'+id, {status:stat, _token:$_token}).success(function(data, status, xhr){
+		
+		// Change the background color when project marked as 'complete'
+		if(data['input']['status'] == 'completed') {
+			if(!$('#project'+data['id']).hasClass('bg-success')){
+				$('#project'+data['id']).addClass('bg-success')
+			}
+		}
+		//console.log(data['input']);
+		//console.log(data['success']);
+	});
+}
+
 //Test method used to save task
 function saveTask(id){
 	if(document.getElementById('txtDescription' + id).value != ''
@@ -111,5 +125,6 @@ function onSuccess(data, status, xhr)
 	// but you can do something with it if you like - the JSON is deserialised into an object
 	console.log(String(data.value).toUpperCase())
 }
-// listeners
+
+// Listeners
 $('button#btnTaskSave').on('click', onPostClick);

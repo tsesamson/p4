@@ -14,7 +14,8 @@
 <!--Section for Project creation and list-->
 
       <div class="container-fluid">
-         <form method="post" action="/tasks/create">
+         <!--<form method="post" action="/tasks/create">-->
+		 <form method="post" action="/projects/status/1">
 			<!-- pass through the CSRF (cross-site request forgery) token -->
 			<input type="hidden" value="{{ csrf_token() }}" name="_token"/>
 			
@@ -84,7 +85,7 @@
 
 				@foreach($projects as $project)
                   <div class="panel panel-default" id="projectList" style="margin-top:15px;">
-                     <div class="panel-body">
+                     <div id="project{{$project->id}}" class="panel-body {{ ($project->status == 'completed')?'bg-success':'' }}">
 					 
                         <div class="row" style="padding:15px;">
                            <div class="col-md-2">
@@ -109,7 +110,7 @@
                                  <div class="btn-toolbar" role="toolbar">
                                  	<button id="btnDescription{{ $project->id }}" type="button" class="btn btn-default" onclick="saveTask('{{ $project->id }}');"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
                                  	<!--<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>-->
-                                 	<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+                                 	<button type="button" class="btn btn-default" onclick="saveProjectStatus({{ $project->id }}, 'completed');"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
                                     <a href="/projects/delete/{{ $project->id }}" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                                  </div>
                               </div>

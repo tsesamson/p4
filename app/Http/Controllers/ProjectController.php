@@ -108,6 +108,28 @@ class ProjectController extends Controller
 		
 		return view('project.index')->with('projects', $projects);
 	}
+	
+	public function postStatus($id, Request $request)
+	{
+		$project = Project::findOrFail($id);
+		
+		if($project && isset($_POST['status'])) {
+			try {
+				$project->status = $request->input('status');
+				$project->save();
+			} catch(Exception $e){
+				$data = array('error' => 'Unable to update project status.');		
+				//return  Response::json($data, 500);
+			}
+		}
+		
+		// Pass back some data, along with the original data, just to prove it was received
+		$data = array('success' => 'Project status updated successfully.', 'id' => $id, 'input' => $request->input());
+		
+		// Return the success JSON response
+		//return Response::json($data, 200);
+		return response()->json($data, 200);
+	}
 
     /**
      * Show the form for creating a new resource.

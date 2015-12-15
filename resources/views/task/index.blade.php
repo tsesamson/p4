@@ -15,7 +15,7 @@
       <div class="container-fluid">
          <form method="post" action="/tasks/create">
 			<!-- pass through the CSRF (cross-site request forgery) token -->
-			<input type="hidden" value="{{ csrf_token() }}" name="_token"/>
+			<input type="hidden" value="{{ csrf_token() }}" name="_token" id="csrf_token" />
 			
             <div class="row" style="float:right;">
                <div class="col-lg-12" id="statusMessage" name="statusMessage">
