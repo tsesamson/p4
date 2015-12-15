@@ -64,9 +64,14 @@ $('body').highlight(/(#\S+@\S+\.\S+)|(\B#\w+)/)  //Both #tag and #email
 
 //Test method used to save task
 function saveTask(id){
-	toggle_visibility('txt' + id);
-	toggle_visibility('div' + id);
-	toggle_edit_icon('btn' + id);
+	if(document.getElementById('txtDescription' + id).value != ''
+	&& document.getElementById('divDescription' + id).innerHTML != ''){
+		toggle_visibility('txtDescription' + id);
+		toggle_visibility('divDescription' + id);
+	}
+	toggle_visibility('dueDate' + id);
+	toggle_visibility('divName' + id);
+	toggle_edit_icon('btnDescription' + id);
 }
 
 //Test Code to toggle task description

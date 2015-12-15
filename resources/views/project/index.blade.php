@@ -89,24 +89,25 @@
                         <div class="row" style="padding:15px;">
                            <div class="col-md-2">
                               <div class="col-md-12">
-                              	<strong>{{ $project->name }}</strong>
+                              	<div id="divName{{$project->id}}"><strong>{{$project->name}}</strong></div>
+								<input type="text" class="form-control" id="dueDate{{$project->id}}" name="dueDate{{$project->id}}" data-provide="datepicker" style="display:none;" maxlength="25" placeholder="Due Date" value="{{$project->dueDate()}}">
                               </div>
                            </div>
                            <div class="col-md-2">
                               <div class="col-md-12">
-								<input type="text" class="form-control" id="projectDuration{{ $project->id }}" name="projectDuration{{ $project->id }}" maxlength="25" placeholder="0:00" value="{{ $project->duration }}">
+								<input type="text" class="form-control" id="projectDuration{{ $project->id }}" name="projectDuration{{ $project->id }}" maxlength="25" placeholder="0:00" value="{{ ($project->duration)?$project->duration:'' }}">
                               </div>
                            </div>
                            <div class="col-md-6">
                               <div class="col-md-12">
-								 <input id="txtProject{{ $project->id }}Description" type="text" class="form-control" name="txtProject{{ $project->id }}Description" style="display:none;" maxlength="255" placeholder="Description or Tags" value="{{ $project->description }}">
-                                 <div id="divProject{{ $project->id }}Description" style="display:block;">{{ $project->description }}</div>
+								 <input id="txtDescription{{ $project->id }}" type="text" class="form-control" name="txtDescription{{ $project->id }}" style="{{($project->description)?'display:none;':'display:block;'}}" maxlength="255" placeholder="Description or Tags" value="{{ $project->description }}">
+                                 <div id="divDescription{{ $project->id }}" style="{{($project->description)?'display:block;':'display:none;'}}">{{ $project->description }}</div>
                               </div>
                            </div>
                            <div class="col-md-2">
                               <div class="col-md-12">
                                  <div class="btn-toolbar" role="toolbar">
-                                 	<button id="btnProject{{ $project->id }}Description" type="button" class="btn btn-default" onclick="saveTask('Project{{ $project->id }}Description');"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
+                                 	<button id="btnDescription{{ $project->id }}" type="button" class="btn btn-default" onclick="saveTask('{{ $project->id }}');"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
                                  	<!--<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>-->
                                  	<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
                                     <a href="/projects/delete/{{ $project->id }}" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>

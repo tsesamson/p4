@@ -10,6 +10,7 @@ use App\Tag as Tag;
 use App\Task as Task;
 use App\Helpers\Helper as Helper;
 use App\Project as Project;
+use Carbon\Carbon;
 use Debugbar;
 
 class TaskController extends Controller
@@ -27,10 +28,10 @@ class TaskController extends Controller
 	public function postCreate(Request $request)
 	{
 		$this->validate($request, [
-			'txtInputTaskDueDate' => 'required|date',
+			'dueDate' => 'required|date',
 			//'txtInputDuration' => 'required|numeric',
-			'txtInputProjectName' => 'required|min:1|max:255',
-			'txtInputTaskDescription' => 'required|min:1|max:512',
+			'projectName' => 'required|min:1|max:255',
+			'taskDescription' => 'required|min:1|max:512',
 		]);
 
 		$task = new Task();
@@ -42,29 +43,31 @@ class TaskController extends Controller
 		//$task->assigned_to = \Auth::id();
 		
 		// Manually check duration field for error
-		if(isset($_POST['txtInputDuration'])) {
+		if(isset($_POST['duration'])) {
 			//if(Helper::create()->checkDuration($_POST['txtInputDuration'])){
 			//	$this->validate->getMessageBag()->add('duration', 'Duration format is incorrect (i.e. 0:00:00).');
 			//} else {
-				$task->duration = Helper::create()->getDurationInSeconds($request->input('txtInputDuration'));
+				$task->duration = Helper::create()->getDurationInSeconds($request->input('duration'));
 			//}
 		}
 
 		$data = $request->all();	// Get all the request value to pass back to view
 		
-		if(isset($_POST['txtInputTaskDueDate'])) {
-			$task->due_date = $request->input('txtInputTaskDueDate'); // Get the post field from request object
+		if(isset($_POST['dueDate'])) {
+			Debugbar::info($_POST['dueDate']);
+			$task->start_date = Carbon::now();
+			$task->due_date = Carbon::parse($request->input('dueDate')); // Get the post field from request object
 		}
 		
-		if(isset($_POST['txtInputProjectName'])) {
+		if(isset($_POST['projectName'])) {
 			// Check to see if a similar project name exists for this user_error
-			$project = Project::where('name', '=', $request->input('txtInputProjectName'))
+			$project = Project::where('name', '=', $request->input('projectName'))
 				->where('user_id','=',\Auth::id())
 				->first();
 			
 			if(!$project){
 				$project = new Project();
-				$project->name = $request->input('txtInputProjectName');
+				$project->name = $request->input('projectName');
 				$project->user_id = \Auth::id();
 				$project->created_by = \Auth::id();
 				$project->updated_by = \Auth::id();
@@ -75,9 +78,9 @@ class TaskController extends Controller
 		}		
 
 		$hashTags = array();
-		if(isset($_POST['txtInputTaskDescription'])) {
-			$hashTags = Helper::create()->getTagsFromString($request->input('txtInputTaskDescription'));  // Get the hashtags from description
-			$task->description = $request->input('txtInputTaskDescription'); // Get the post field from request object
+		if(isset($_POST['taskDescription'])) {
+			$hashTags = Helper::create()->getTagsFromString($request->input('taskDescription'));  // Get the hashtags from description
+			$task->description = $request->input('taskDescription'); // Get the post field from request object
 		}
 
 		//Make sure the saving is done in a transaction so any error will be rollback

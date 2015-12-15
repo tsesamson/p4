@@ -74,7 +74,8 @@ class Helper
 		}
 		
 		// Split the text
-		$durationArray = explode(":", $_POST['txtInputDuration']);
+		$durationArray = explode(":", $string);
+		//$durationArray = explode(":", $_POST['txtInputDuration']);
 		
 		if(count($durationArray) == 2) {
 			if(is_numeric($durationArray[0]) && is_numeric($durationArray[1])) {

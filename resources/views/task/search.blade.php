@@ -55,14 +55,14 @@
                         <div class="row" style="padding:15px;">
                            <div class="col-md-2">
                               <div class="col-md-12">
-                              	<strong>{{$task->project->name}}</strong>
-								<h5>{{ $task->due_date }}</h5>
+                              	<div id="divName{{$task->id}}"><strong>{{$task->project->name}}</strong></div>
+								<input type="text" class="form-control" id="dueDate{{$task->id}}" name="dueDate{{$task->id}}" data-provide="datepicker" style="display:none;" maxlength="25" placeholder="Due Date" value="{{$task->dueDate()}}">
                               </div>
                            </div>
                            <div class="col-md-2">
                               <div class="col-md-12">
                                  <div class="input-group">
-                                    <input type="text" class="form-control" name="txtTaskDuration{{$task->id}}" maxlength="25" placeholder="0:00" value="{{$task->duration()}}">
+                                    <input type="text" class="form-control" name="txtDuration{{$task->id}}" maxlength="25" placeholder="0:00" value="{{$task->duration()}}">
                                     <span class="input-group-btn">
                                     <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
                                     <a class="btn btn-default" role="button" data-toggle="collapse" data-parent="#taskTimer" href="#collapseTimerHistory" aria-expanded="false" aria-controls="collapseTimerHistoryGroup"><span class="glyphicon glyphicon-time"></span></a>
@@ -72,14 +72,14 @@
                            </div>
                            <div class="col-md-6">
                               <div class="col-md-12">
-								 <input id="txtTaskDescription{{$task->id}}" type="text" class="form-control" name="txtTaskDescription{{$task->id}}" style="display:none;" maxlength="255" placeholder="Description or Tags" value="{{$task->description}}">
-                                 <div id="divTaskDescription{{$task->id}}" style="display:block;">{{$task->description}}</div>
+								 <input id="txtDescription{{$task->id}}" type="text" class="form-control" name="txtDescription{{$task->id}}" style="display:none;" maxlength="255" placeholder="Description or Tags" value="{{$task->description}}">
+                                 <div id="divDescription{{$task->id}}" style="display:block;">{{$task->description}}</div>
                               </div>
                            </div>
                            <div class="col-md-2">
                               <div class="col-md-12">
                                  <div class="btn-toolbar" role="toolbar">
-                                 	<button id="btnTaskDescription{{$task->id}}" type="button" class="btn btn-default" onclick="saveTask('TaskDescription{{$task->id}}');"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
+                                 	<button id="btnDescription{{$task->id}}" type="button" class="btn btn-default" onclick="saveTask('{{$task->id}}');"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
                                  	<!--<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>-->
                                  	<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
                                     <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>

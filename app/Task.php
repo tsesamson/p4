@@ -28,7 +28,7 @@ class Task extends Model
 	}
 	
 	/*
-	 * Trying to override the method that returns the duration field
+	 * Trying to create a method that returns the duration field
 	 */
 	public function duration() {
 		
@@ -39,5 +39,13 @@ class Task extends Model
 		}
 		
 		return $this->duration;
+	}
+	
+	/*
+	 * Creating a method that will return due date in date format that matches the datepicker js
+	 */
+	public function dueDate() {
+		$t = strtotime($this->due_date);
+		return date('m/d/Y', $t);
 	}
 }
