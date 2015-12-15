@@ -25,6 +25,11 @@ class CreateProjectsTable extends Migration
 			$table->integer('user_id')->unsigned();
 			//$table->foreign('user_id')->references('id')->on('users');
 
+			$table->integer('client_id')->unsigned();
+			//$table->foreign('client_id')->references('id')->on('clients');
+			
+			$table->integer('template_id')->unsigned();  //  Future use: the project_id used on current project's creation as template
+			
 			$table->integer('created_by')->unsigned();
 			//$table->foreign('created_by')->references('id')->on('users');
 
@@ -36,12 +41,18 @@ class CreateProjectsTable extends Migration
 			$table->enum('status', ['completed', 'initialized', 'pending', 'approved', 'rejected'])->default('initialized');
 			$table->string('name');
 			$table->text('description');
-			$table->integer('duration')->unsigned()->default(0);
+			$table->integer('duration')->unsigned()->default(0);  // Track the duration of the project
 			$table->datetime('start_date');
+			$table->datetime('end_date');
 			$table->datetime('due_date');
 			$table->string('comment');
-			//$table->boolean('is_active')->default(1);
-
+			$table->boolean('is_active')->default(1);
+			$table->boolean('is_private')->default(1); // All projects are private by default unless specify by user
+			$table->boolean('is_global')->default(0); // Projects are allowed to be global where anyone can create task for it
+			$table->boolean('is_template')->default(0); // Future use: determine if this project can be use as a template for other projects
+			$table->boolean('is_billable')->default(0); // Future use: define if the project is billable or not
+			$table->float('rate'); // Future use: Allow user to set hourly rate of the project
+			
 			# For soft delete
 			$table->softDeletes();
 
@@ -50,6 +61,7 @@ class CreateProjectsTable extends Migration
 
 		});
     }
+	
 
     /**
      * Reverse the migrations.

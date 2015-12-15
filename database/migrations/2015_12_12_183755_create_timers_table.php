@@ -21,7 +21,11 @@ class CreateTimersTable extends Migration
 			# This generates two columns: 'created_at' and 'updated_at'
 			$table->timestamps();
 
-			# Create fields to keep track of which user created or updated the timer
+			# Create fields to keep track of which project this timer belongs to
+			$table->integer('project_id')->unsigned();
+			$table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+			
+			# Create fields to keep track of which task this timer belongs to
 			$table->integer('task_id')->unsigned();
 			$table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
 			
@@ -32,8 +36,12 @@ class CreateTimersTable extends Migration
 			//$table->foreign('updated_by')->references('id')->on('users');
 
 			# Rest of the timer fields
+			$table->datetime('start'); // Track the start time of the timer
+			$table->datetime('stop'); // Track the end time of the timer
 			$table->integer('duration')->unsigned();
 			$table->string('comment');
+			$table->string('created_with'); // Future use, defines what device/app the user used to set the timer
+			$table->boolean('is_billable')->default(0); // Define whether this timer is billable
 
 			# For soft delete
 			$table->softDeletes();
@@ -41,7 +49,7 @@ class CreateTimersTable extends Migration
 		});
 
     }
-
+	
     /**
      * Reverse the migrations.
      *

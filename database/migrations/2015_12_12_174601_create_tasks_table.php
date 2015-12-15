@@ -47,7 +47,7 @@ class CreateTasksTable extends Migration
 			$table->datetime('start_date');
 			$table->datetime('due_date');
 			$table->string('comment');
-			//$table->boolean('is_active')->default(1);
+			$table->boolean('is_active')->default(1);
 
 			# For soft delete
 			$table->softDeletes();
