@@ -20,9 +20,15 @@
                <form class="navbar-form navbar-left" role="search" method="post" action="/tasks/search">
                   <div class="form-group">
 					<input type="hidden" value="{{ csrf_token() }}" name="_token"/>
-                     <input type="text" id="txtHashTagSearch" name="txtHashTagSearch" class="form-control" placeholder="Search by tag">
+					<div class="input-group">
+						<input type="text" id="txtHashTagSearch" name="txtHashTagSearch" class="form-control" placeholder="Search tag or project name">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>	
+						</span>
+					</div>
                   </div>
-                  <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                  
+				  
                </form>
                <ul class="nav navbar-nav navbar-right">
                   <!--<li><a href="#">Link</a></li>-->

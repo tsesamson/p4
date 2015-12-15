@@ -17,11 +17,11 @@
 			<!-- pass through the CSRF (cross-site request forgery) token -->
 			<input type="hidden" value="{{ csrf_token() }}" name="_token"/>
 			
-            <div class="row" style="float:right;">
+            <!--<div class="row" style="float:right;">
                <div class="col-lg-12" id="statusMessage" name="statusMessage">
                   logged <strong>6 hours</strong> today - last entry <strong>29 minutes ago</strong>
                </div>
-            </div>
+            </div>-->
 
 
 
@@ -29,7 +29,11 @@
 			<div class="row">
 			  <div class="col-lg-12">
 				<div class="page-header">
-				  <h2>Search result for #{{ $hashTag }}</h2>
+					@if($isTagSearch)
+						<h2>Search result for #{{ $hashTag }}</h2>
+					@else
+						<h2>Search result for '{{ $hashTag }}'</h2>
+					@endif
 				</div>
 			  </div>
 			</div>

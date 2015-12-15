@@ -78,7 +78,7 @@ class ProjectController extends Controller
 		//Make sure the saving is done in a transaction so any error will be rollback
 		\DB::transaction(function() use ($project, $task, $hashtags) {
 			$project = $project->save();  // Project needs to exists first
-			\App\Project::find($project->id)->task()->save($task); // Task is saved to existing Project record
+			\App\Project::find($project->id)->tasks()->save($task); // Task is saved to existing Project record
 			
 			// TODO: loop thru $hashtags array and insert the tags
 			foreach($hashTags as $tagName){

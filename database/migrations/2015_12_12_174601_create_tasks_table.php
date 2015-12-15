@@ -45,6 +45,7 @@ class CreateTasksTable extends Migration
 			$table->text('description');
 			$table->integer('duration')->unsigned()->default(0);
 			$table->datetime('start_date');
+			$table->datetime('end_date');
 			$table->datetime('due_date');
 			$table->string('comment');
 			$table->boolean('is_active')->default(1);

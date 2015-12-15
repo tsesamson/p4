@@ -87,7 +87,7 @@ class TaskController extends Controller
 		\DB::transaction(function() use ($project, $task, $hashTags) {
 			//$project = $project->save();  // Project needs to exists first
 			$project->save();  // Project needs to exists first
-			Project::find($project->id)->task()->save($task); // Task is saved to existing Project record
+			Project::find($project->id)->tasks()->save($task); // Task is saved to existing Project record
 			
 			
 			// TODO: If tag name is an email, add user to assigned_to field
@@ -134,9 +134,15 @@ class TaskController extends Controller
     public function postSearch(Request $request)
     {
 		$hashTag = "";
+		$isTagSearch = true;
 		
 		if(isset($_POST['txtHashTagSearch'])) {
 				$hashTag = $request->input('txtHashTagSearch');
+				
+				// Strip away the initial '#' if it exist in search text
+				while(substr($hashTag, 0, 1) === "#"){
+					$hashTag = substr($hashTag, 1);
+				}
 		}
 		
 		// Return a collection of all the tasks for the user with specific hashtag
@@ -153,7 +159,16 @@ class TaskController extends Controller
 			}
 		}
 		
-		return view('task.search')->with('tasks', $tasks)->with('hashTag', $hashTag);
+		// Check to see if result set is empty, if so, proceed to search tasks from project name
+		if(count($tasks)==0){
+			$project = Project::where('name','=',$hashTag)->first();
+			$tasks = Project::find($project->id)->tasks;
+			$isTagSearch = false;
+		}
+		
+		if(count($tasks)==0){ $isTagSearch = false; }
+		
+		return view('task.search')->with('tasks', $tasks)->with('hashTag', $hashTag)->with('isTagSearch', $isTagSearch);
     }
 	
     /**

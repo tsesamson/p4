@@ -17,7 +17,7 @@ class Task extends Model
 		return $this->belongsTo('\App\User');
 	}
 	
-    public function timer() {
+    public function timers() {
 		# Task has many Timers (one-to-many)
 		return $this->hasMany('\App\Timer');
 	}
