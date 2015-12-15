@@ -14,8 +14,7 @@
 <!--Section for Project creation and list-->
 
       <div class="container-fluid">
-         <!--<form method="post" action="/tasks/create">-->
-		 <form method="post" action="/projects/status/1">
+		 <form method="post" action="/projects/create">
 			<!-- pass through the CSRF (cross-site request forgery) token -->
 			<input type="hidden" value="{{ csrf_token() }}" name="_token"/>
 			
@@ -33,7 +32,6 @@
                      <li role="presentation"><a href="#">Activity</a></li>
                   </ul>
                   <div class="panel panel-default" id="taskTimer" style="margin-top:15px;">
-                     <!--<div class="panel-heading"><h2 class="panel-title">Task</h2></div>-->
                      <div class="panel-body">
                         <div class="row">
                            <div class="col-md-2">
@@ -42,29 +40,29 @@
                                     <span class="input-group-btn">
                                     <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></button>
                                     </span>
-                                    <input type="text" class="form-control" name="txtInputTaskDueDate" id="txtInputTaskDueDate" data-provide="datepicker" maxlength="25" placeholder="Due Date" value="">
+                                    <input type="text" class="form-control" name="dueDate" id="dueDate" data-provide="datepicker" maxlength="25" placeholder="Due Date" value="">
                                  </div>
                               </div>
                            </div>
                            <div class="col-md-1">
                               <div class="col-md-12">
-                                    <input type="text" class="form-control" name="txtInputDuration" id="txtInputDuration" maxlength="25" placeholder="0:00" value="">
+                                    <input type="text" class="form-control" name="duration" id="duration" maxlength="25" placeholder="0:00" value="">
                               </div>
                            </div>
                            <div class="col-md-3">
                               <div class="col-md-12">
-                                 <input type="text" class="form-control" name="txtInputProjectName" id="txtInputProjectName" maxlength="255" placeholder="Project Name" value="">
+                                 <input type="text" class="form-control" name="projectName" id="projectName" maxlength="255" placeholder="Project Name" value="">
                               </div>
                            </div>
                            <div class="col-md-5">
                               <div class="col-md-12">
-                                 <input type="text" class="form-control" name="txtInputTaskDescription" id="txtInputTaskDescription" maxlength="255" placeholder="Project Description">
+                                 <input type="text" class="form-control" name="projectDescription" id="projectDescription" maxlength="255" placeholder="Project Description">
                               </div>
                            </div>
                            <div class="col-md-1">
                               <div class="col-md-12">
                                  <div class="btn-toolbar" role="toolbar">
-                                    <button type="submit" class="btn btn-default" name="btnInputTaskSubmit" id="btnInputTaskSubmit"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
+                                    <button type="submit" class="btn btn-default" name="btnProjectSubmit" id="btnProjectSubmit"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
                                  </div>
                               </div>
                            </div>

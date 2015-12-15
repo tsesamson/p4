@@ -40,7 +40,9 @@ Route::group(['middleware' => 'auth'], function() {
 	// Project Routes
 	Route::get('/projects', 'ProjectController@getIndex');  //Show Project list
 	Route::get('/projects/delete/{id?}', 'ProjectController@getDelete');
+	Route::post('/projects/create', 'ProjectController@postCreate');
 	Route::post('/projects/status/{id}', 'ProjectController@postStatus');  // Change status with Ajax post call
+	
 	
 	// Task Routes
     //Route::get('/tasks/create', 'TaskController@getCreate');

@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Project as Project;
 use App\Task as Task;
 use App\Helpers\Helper as Helper;
+use Carbon\Carbon;
 use Debugbar;
 
 class ProjectController extends Controller
@@ -31,82 +32,63 @@ class ProjectController extends Controller
 	public function postCreate(Request $request)
 	{
 		$this->validate($request, [
-			'txtInputTaskDueDate' => 'required|date',
-			//'txtInputDuration' => 'required|numeric',
-			'txtInputProjectName' => 'required|min:1|max:255',
-			'txtInputTaskDescription' => 'required|min:1|max:512',
+			'dueDate' => 'required|date',
+			'duration' => 'numeric',
+			'projectName' => 'required|min:1|max:255',
+			'projectDescription' => 'required|min:1|max:512',
 		]);
 
-		$task = new Task();
+		$project = new Project();
+		
+
+		
 		
 		// Manually check duration field for error
-		if(isset($_POST['txtInputDuration'])) {
-			if(Helper::create()->checkDuration($_POST['txtInputDuration'])){
-				$this->validate->getMessageBag()->add('duration', 'Duration format is incorrect (i.e. 0:00:00).');
-			} else {
-				$task->duration = Helper::create()->getDurationInSeconds($request->input('txtInputDuration'));
-			}
+		if(isset($_POST['duration'])) {
+			//if(Helper::create()->checkDuration($_POST['txtInputDuration'])){
+			//	$this->validate->getMessageBag()->add('duration', 'Duration format is incorrect (i.e. 0:00:00).');
+			//} else {
+				$project->duration = Helper::create()->getDurationInSeconds($request->input('duration'));
+			//}
 		}
-
+		
 		$data = $request->all();	// Get all the request value to pass back to view
 		
-		if(isset($_POST['txtInputTaskDueDate'])) {
-			$task->due_date = $request->input('txtInputTaskDueDate'); // Get the post field from request object
+		if(isset($_POST['dueDate'])) {
+			Debugbar::info($_POST['dueDate']);
+			$project->start_date = Carbon::now();
+			$project->due_date = Carbon::parse($request->input('dueDate')); // Get the post field from request object
 		}
 		
-		if(isset($_POST['txtInputProjectName'])) {
-			// Check to see if a similar project name exists for this user_error
-			$project = Project::where('name', '=', $request->input('txtInputProjectName'))
+		if(isset($_POST['projectName'])) {
+			// Check to see if a similar project name exists for this user
+			$projectCheck = Project::where('name', '=', $request->input('projectName'))
 				->where('user_id','=',\Auth::id())
 				->first();
 			
-			if(!$project){
-				$project = new Project();
-				$project->name = $request->input('txtInputProjectName');
+			if(!$projectCheck){
+				$project->name = $request->input('projectName');
+				// Associate this user with all the proper user_id fields
 				$project->user_id = \Auth::id();
+				$project->created_by = \Auth::id();
+				$project->updated_by = \Auth::id();
 				
 			}
-			
-			$task->project_id = $project->id;
 		}		
 
-		if(isset($_POST['txtInputTaskDescription'])) {
-			$hashtags = Helper::create()->getTagsFromString($request->input('txtInputTaskDescription'));  // Get the hashtags from description
-			$task->description = $request->input('txtInputTaskDescription'); // Get the post field from request object
-		}
-
+		$project->description = $request->input('projectDescription'); // Get the post field from request object
+		
 		//Make sure the saving is done in a transaction so any error will be rollback
-		\DB::transaction(function() use ($project, $task, $hashtags) {
-			$project = $project->save();  // Project needs to exists first
-			\App\Project::find($project->id)->tasks()->save($task); // Task is saved to existing Project record
-			
-			// TODO: loop thru $hashtags array and insert the tags
-			foreach($hashTags as $tagName){
-				$tag = \App\Tag::where('name', '=', $tagName)
-					->where('user_id', '=', \Auth::id())->first();
-				
-				if($tag) {
-					$task->tags()->save($tag);  // Save tag to task
-				} else {
-					$tag = new \App\Tag();  // Create new tag
-					$tag->name = $tagName;
-					$tag->user_id = \Auth::id();
-					$task->tags()->save($tag);
-					//$tag->save();
-				}
-			}
-			
+		\DB::transaction(function() use ($project) {
+			$project = $project->save();  
 		});
 		
+		// Set the flash message for completing the save
+		$request->session()->flash('alert-success', "Project '" . $project->name . "' added successfully.");
 		
-		// Return a collection of all the projects for the user
-		$projects = Project::where('user_id','=',\Auth::id())->orderBy('due_date', 'desc');
 		
-
-		// $request->flash();	//Send value of input back to form
-		// TODO: Send flash message after save/creation
-		
-		return view('project.index')->with('projects', $projects);
+		return redirect('projects');
+		//return view('project.index')->with('projects', $projects);
 	}
 	
 	public function postStatus($id, Request $request)
