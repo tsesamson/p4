@@ -30,7 +30,14 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::get('/home', 'TaskController@getIndex');  //Show Home page
 	
-	//P roject Routes
+	// User Routes
+	Route::get('/users/profile', 'UserController@getProfile');  //Show Profile edit page
+	Route::post('/users/profile', 'UserController@postProfile');  //Save User Profile
+	Route::get('/users/password', 'UserController@getPassword');  //Show Password change page
+	Route::post('/users/password', 'UserController@postPassword');  //Save Password change
+	
+	
+	// Project Routes
 	Route::get('/projects', 'ProjectController@getIndex');  //Show Project list
 	Route::get('/projects/delete/{id?}', 'ProjectController@getDelete');
 	
