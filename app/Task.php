@@ -55,8 +55,8 @@ class Task extends Model
 	public function save(array $options = array())
 	{
 		// Check to see if the current user has permission to update the record
-		// TODO: Check if the user is in the project_users table with admin permission
-		if($this->user_id == /Auth::id() || $this->assigned_to == \Auth::id()) {
+		// TODO: Should change everything to Policy (http://laravel.com/docs/5.1/authorization)
+		if($this->user_id == \Auth::id() || $this->assigned_to == \Auth::id()) {
 			parent::save($options);
 		} else {
 			abort(403, 'Unauthorized action.');

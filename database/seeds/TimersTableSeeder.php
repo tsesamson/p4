@@ -14,6 +14,7 @@ class TimersTableSeeder extends Seeder
 		DB::table('timers')->insert([
 			'created_at' => Carbon\Carbon::now()->toDateTimeString(),
 			'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
+			'start' => Carbon\Carbon::now()->toDateTimeString(),
 			'duration' => 90,
 			'project_id' => 1,
 			'task_id' => 1,
@@ -25,6 +26,7 @@ class TimersTableSeeder extends Seeder
 		DB::table('timers')->insert([
 			'created_at' => Carbon\Carbon::now()->toDateTimeString(),
 			'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
+			'start' => Carbon\Carbon::now()->toDateTimeString(),
 			'duration' => 225,
 			'project_id' => 1,
 			'task_id' => 1,
@@ -35,6 +37,7 @@ class TimersTableSeeder extends Seeder
 		DB::table('timers')->insert([
 			'created_at' => Carbon\Carbon::now()->toDateTimeString(),
 			'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
+			'start' => Carbon\Carbon::now()->toDateTimeString(),
 			'duration' => 1234,
 			'project_id' => 1,
 			'task_id' => 1,

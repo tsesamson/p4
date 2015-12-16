@@ -76,47 +76,56 @@
 					<div class="row">
 				      <div class="col-lg-12">
 				        <div class="page-header">
-				          <h2>December 12, 2015</h2>
+				          <h2>Task List</h2>
 				        </div>
 				      </div>
 				    </div>
 
+			@if(count($tasks)==0) 
+			
                   <div class="panel panel-default" id="taskTimerRecord" style="margin-top:15px;">
-                     <!--<div class="panel-heading"><h2 class="panel-title">Task</h2></div>-->
+                     <div class="panel-body">
+                        <div class="row" style="padding:15px;">
+                           <div class="col-md-12">
+                              	<strong>You do not have any task in your account.</strong>
+                           </div>
+						</div>
+					</div>
+				</div>
+			
+			@else
+				@foreach($tasks as $task)
+			
+                  <div class="panel panel-default" id="taskRecord{{$task->id}}" style="margin-top:15px;">
                      <div class="panel-body">
                         <div class="row" style="padding:15px;">
                            <div class="col-md-2">
                               <div class="col-md-12">
-                              	<strong>Sample Project</strong>
-                                 <!--<div class="input-group">
-                                    <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></button>
-                                    </span>
-                                    <input type="text" class="form-control" name="taskDate"  data-provide="datepicker" maxlength="25" placeholder="" value="">
-                                 </div>-->
+                              	<div id="divName{{$task->id}}"><strong>{{$task->project->name}}</strong></div>
+								<input type="text" class="form-control" id="dueDate{{$task->id}}" name="dueDate{{$task->id}}" data-provide="datepicker" style="display:none;" maxlength="25" placeholder="Due Date" value="{{$task->dueDate()}}">
                               </div>
                            </div>
                            <div class="col-md-2">
                               <div class="col-md-12">
                                  <div class="input-group">
-                                    <input type="text" class="form-control" name="duration" maxlength="25" placeholder="0:00" value="">
+                                    <input type="text" class="form-control" name="duration{{$task->id}}" id="duration{{$task->id}}" maxlength="25" placeholder="0:00" value="{{$task->duration()}}">
                                     <span class="input-group-btn">
                                     <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
-                                    <a class="btn btn-default" role="button" data-toggle="collapse" data-parent="#taskTimer" href="#collapseTimerHistory" aria-expanded="false" aria-controls="collapseTimerHistoryGroup"><span class="glyphicon glyphicon-time"></span></a>
+                                    <a class="btn btn-default" style="{{(count($task->timers) > 1)?'display:inline-block;':'display:none;'}}" role="button" data-toggle="collapse" data-parent="#taskTimer" href="#collapseTimerHistory" aria-expanded="false" aria-controls="collapseTimerHistoryGroup"><span class="glyphicon glyphicon-time"></span></a>
                                     </span>
                                  </div>
                               </div>
                            </div>
                            <div class="col-md-6">
                               <div class="col-md-12">
-								 <input id="txtTaskDescription" type="text" class="form-control" name="txtTaskDescription" style="display:none;" maxlength="255" placeholder="Description or Tags" value="This is the description for the task with #tag marking tags within the description.  I'll need to parse the tags out and add it to its own table. Assigned to #tse.samson@gmail.com">
-                                 <div id="divTaskDescription" style="display:block;">This is the description for the task with #tag marking tags within the description.  I'll need to parse the tags out and add it to its own table. Assigned to #tse.samson@gmail.com</div>
+								 <input id="txtDescription{{$task->id}}" type="text" class="form-control" name="txtDescription{{$task->id}}" style="display:none;" maxlength="255" placeholder="Description or Tags" value="{{$task->description}}">
+                                 <div id="divDescription{{$task->id}}" style="display:block;">{{$task->description}}</div>
                               </div>
                            </div>
                            <div class="col-md-2">
                               <div class="col-md-12">
                                  <div class="btn-toolbar" role="toolbar">
-                                 	<button id="btnTaskDescription" type="button" class="btn btn-default" onclick="saveTask('TaskDescription');"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
+                                 	<button id="btnDescription{{$task->id}}" type="button" class="btn btn-default" onclick="saveTask('{{$task->id}}');"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
                                  	<!--<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>-->
                                  	<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
                                     <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
@@ -126,57 +135,36 @@
                         </div><!-- End of Row for task input box -->
 
                         <!-- Collapsed history section for this task -->
-                        <div id="collapseTimerHistory" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                           <div class="panel-body">
-                              <div class="row" style="padding-top:15px;">
-                                 <div class="col-md-2">01/20/2016</div>
-                                 <div class="col-md-2">
-									 <div class="input-group">
-										<input type="text" class="form-control" name="duration" maxlength="25" placeholder="0:00" value="0:45">
-										<span class="input-group-btn">
-										<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
-										</span>
+						@if(count($task->timers) > 1)
+							@foreach($task->timers as $timer)
+							<div id="collapseTimerHistory" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+							   <div class="panel-body">
+								  <div class="row" style="padding-top:15px;">
+									 <div id="timerStart{{$timer->id}}" class="col-md-2">{{$timer->startDate()}}</div>
+									 <div class="col-md-2">
+										<div name="timerDuration{{$timer->id}}" id="timerDuration{{$timer->id}}">{{$timer->duration()}}</div>
 									 </div>
-								 </div>
-                                 <div class="col-md-6">This is the description for the task with <span class="label label-warning">#tag</span> marking tags within the description.  Will need to parse the tags out and add it to its own table.</div>
-                                 <div class="col-md-2">
-                                    <div class="col-md-12">
-                                       <div class="btn-toolbar" role="toolbar">
-                                          <!--<button type="submit" class="btn btn-danger btn-md btn-block">Delete</button>-->
-                                          <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div class="row" style="padding-top:15px;">
-                                 <div class="col-md-2">01/01/2016</div>
-                                 <div class="col-md-2">
-									 <div class="input-group">
-										<input type="text" class="form-control" name="duration" maxlength="25" placeholder="0:00" value="0:12">
-										<span class="input-group-btn">
-										<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
-										</span>
+									 <div id="timerComment{{$timer->id}}" class="col-md-6">
+										<input type="text" class="form-control" name="timerComment{{$timer->id}}" id="timerComment{{$timer->id}}" maxlength="255" placeholder="Comments ..." value="{{$timer->comment}}">
 									 </div>
-								 </div>
-                                 <div class="col-md-6">This is the description for the task with #tag marking tags within the description.  Will need to parse the tags out and add it to its own table.</div>
-                                 <div class="col-md-2">
-                                    <div class="col-md-12">
-                                       <div class="btn-toolbar" role="toolbar">
-                                          <!--<button type="submit" class="btn btn-danger btn-md btn-block">Delete</button>-->
-                                          <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div><!--End of panel-body -->
-                        </div><!--End of collapseTimeHistory -->
+									 <div class="col-md-2">
+										<div class="col-md-12">
+										   <div class="btn-toolbar" role="toolbar">
+											  <button type="button" id="btnTimerDelete{{$timer->id}}" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+										   </div>
+										</div>
+									 </div>
+								  </div>						
+							   </div><!--End of panel-body -->
+							</div><!--End of collapseTimeHistory -->
+							@endforeach
+						@endif
 
                      </div><!--End of panel-body -->
                   </div><!--End of taskTimerRecord panel -->
-
-
-               </div>
-			</div>
+				@endforeach
+			@endif
+					
 		 </form>
       </div>
 

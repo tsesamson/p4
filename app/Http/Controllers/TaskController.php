@@ -22,7 +22,9 @@ class TaskController extends Controller
      */
     public function getIndex()
     {
-        return view('task.index');
+		$tasks = Task::with('timers')->where('user_id', '=', \Auth::id())->get();
+		
+        return view('task.index')->with('tasks', $tasks);
     }
 	
 	public function postCreate(Request $request)
@@ -122,7 +124,8 @@ class TaskController extends Controller
 		$request->flash();	//Send value of input back to form
 		// TODO: Send flash message after save/creation
 		
-		return view('task.index')->with('tasks', $tasks);
+		return redirect('home');
+		//return view('task.index')->with('tasks', $tasks);
 	}
 
     /**

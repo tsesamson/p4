@@ -133,6 +133,38 @@ class Helper
 	}
 	
 	/*
+	 * Convert duration seconds to readable text  format 
+	 */
+	public function durationToString($seconds){
+		$result = '';
+		
+		if($seconds == 0){
+			return $result;
+		}
+		
+		// Make sure $seconds is numeric
+		if(is_numeric($seconds)) {
+			$hours = floor($seconds / 3600);
+			$mins = floor(($seconds - ($hours*3600)) / 60);
+			$secs = floor($seconds % 60);
+			
+			// Assemble the string in readable format
+			if($hours > 0)
+				$result .= strval($hours) . ' hrs ';
+			
+			if($hours == 0 && $mins == 0){}
+			else { $result .= strval($mins) . ' mins '; }
+			
+			$result .= strval($secs) . ' secs';
+			
+			return $result;
+		}
+		
+
+		return $result;
+	}
+	
+	/*
 	 * Get the hashtags from within a string 
 	 */
 	public function getTagsFromString($string) {
