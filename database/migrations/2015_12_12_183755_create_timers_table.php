@@ -39,6 +39,7 @@ class CreateTimersTable extends Migration
 			$table->datetime('start'); // Track the start time of the timer
 			$table->datetime('stop'); // Track the end time of the timer
 			$table->integer('duration')->unsigned();
+			$table->integer('duration_limit')->unsigned()->default(0);  // Set a duration limit for the timer
 			$table->string('comment');
 			$table->string('created_with'); // Future use, defines what device/app the user used to set the timer
 			$table->boolean('is_billable')->default(0); // Define whether this timer is billable

@@ -38,10 +38,11 @@ class CreateProjectsTable extends Migration
 
 			# Rest of the project fields
 			//$table->integer('status_id')->unsigned()->default(0);
-			$table->enum('status', ['completed', 'initialized', 'pending', 'approved', 'rejected'])->default('initialized');
+			$table->enum('status', ['completed', 'started', 'pending', 'approved', 'rejected'])->default('started');
 			$table->string('name');
 			$table->text('description');
 			$table->integer('duration')->unsigned()->default(0);  // Track the duration of the project
+			$table->integer('duration_limit')->unsigned()->default(0);  // Set a duration limit for the project
 			$table->datetime('start_date');
 			$table->datetime('end_date');
 			$table->datetime('due_date');

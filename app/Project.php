@@ -10,6 +10,22 @@ class Project extends Model
 		# Project has many Tasks (one-to-many)
 		return $this->hasMany('\App\Task');
 	}
+
+	/*
+	 * Creating a method that will return start date in date format that matches the datepicker js
+	 */
+	public function startDate() {
+		$t = strtotime($this->start_date);
+		return date('m/d/Y', $t);
+	}
+
+	/*
+	 * Creating a method that will return end date in date format that matches the datepicker js
+	 */
+	public function endDate() {
+		$t = strtotime($this->end_date);
+		return date('m/d/Y', $t);
+	}
 	
 	/*
 	 * Creating a method that will return due date in date format that matches the datepicker js

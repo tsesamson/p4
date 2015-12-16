@@ -44,6 +44,7 @@ class CreateTasksTable extends Migration
 			$table->string('name');
 			$table->text('description');
 			$table->integer('duration')->unsigned()->default(0);
+			$table->integer('duration_limit')->unsigned()->default(0);  // Set a duration limit for the task
 			$table->datetime('start_date');
 			$table->datetime('end_date');
 			$table->datetime('due_date');

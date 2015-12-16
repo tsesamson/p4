@@ -62,7 +62,7 @@
                            <div class="col-md-1">
                               <div class="col-md-12">
                                  <div class="btn-toolbar" role="toolbar">
-                                    <button type="submit" class="btn btn-default" name="btnTaskSubmit" id="btnTaskSubmit"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
+                                    <button type="submit" class="btn btn-default" name="btnTaskSubmit" id="btnTaskSubmit"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
                                  </div>
                               </div>
                            </div>

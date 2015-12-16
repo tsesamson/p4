@@ -40,9 +40,6 @@ class ProjectController extends Controller
 
 		$project = new Project();
 		
-
-		
-		
 		// Manually check duration field for error
 		if(isset($_POST['duration'])) {
 			//if(Helper::create()->checkDuration($_POST['txtInputDuration'])){
@@ -91,6 +88,90 @@ class ProjectController extends Controller
 		//return view('project.index')->with('projects', $projects);
 	}
 	
+	
+	/*
+	 * Get the project record for editing
+	 */
+	public function getEdit($id)
+	{
+		$project = Project::findOrFail($id);
+		
+		return view('project.edit')->with('project', $project);
+	}
+	
+	/* 
+	 * Receives project form update thru post
+	 */
+	public function postEdit(Request $request)
+	{
+		$this->validate($request, [
+			'projectId' => 'required|numeric',
+			'projectName' => 'required|min:1|max:255',
+			'projectDescription' => 'required|min:1|max:512',
+			'duration' => 'numeric',
+			'durationLimit' => 'numeric',
+			'startDate' => 'required|date',
+			'endDate' => 'required|date',
+			'dueDate' => 'required|date',
+
+		]);
+
+		$project = Project::find($request->input('projectId'));
+		
+		// Manually check duration field for error
+		if(isset($_POST['duration'])) {
+			//if(Helper::create()->checkDuration($_POST['txtInputDuration'])){
+			//	$this->validate->getMessageBag()->add('duration', 'Duration format is incorrect (i.e. 0:00:00).');
+			//} else {
+				$project->duration = Helper::create()->getDurationInSeconds($request->input('duration'));
+				
+			//}
+		}
+		
+		if(isset($_POST['durationLimit'])){
+			$project->duration_limit = Helper::create()->getDurationInSeconds($request->input('durationLimit'));
+		}
+		
+		$data = $request->all();	// Get all the request value to pass back to view
+		
+		if(isset($_POST['dueDate'])) {
+			//Debugbar::info($_POST['dueDate']);
+			$project->start_date = Carbon::parse($request->input('startDate'));
+			$project->end_date = Carbon::parse($request->input('endDate'));
+			$project->due_date = Carbon::parse($request->input('dueDate')); // Get the post field from request object
+		}
+		
+		if(isset($_POST['projectName'])) {
+			// Check to see if a similar project name exists for this user
+			$projectCheck = Project::where('name', '=', $request->input('projectName'))
+				->where('user_id','=',\Auth::id())
+				->first();
+			
+			if(!$projectCheck){
+				$project->name = $request->input('projectName');
+			}
+		}		
+
+		$project->description = $request->input('projectDescription'); // Get the post field from request object
+		$project->updated_by = \Auth::id();
+		
+		//Make sure the saving is done in a transaction so any error will be rollback
+		\DB::transaction(function() use ($project) {
+			$project = $project->save();  
+		});
+		
+		// Set the flash message for completing the save
+		$request->session()->flash('alert-success', "Project '" . $project->name . "' updated successfully.");
+		
+		
+		//return redirect('projects');
+		return view('project.edit')->with('project', $project);
+	}
+		
+	
+	/*
+	 * Status update of the project that returns an ajax response
+	 */
 	public function postStatus($id, Request $request)
 	{
 		$project = Project::findOrFail($id);
@@ -109,7 +190,6 @@ class ProjectController extends Controller
 		$data = array('success' => 'Project status updated successfully.', 'id' => $id, 'input' => $request->input());
 		
 		// Return the success JSON response
-		//return Response::json($data, 200);
 		return response()->json($data, 200);
 	}
 

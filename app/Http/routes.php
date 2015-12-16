@@ -42,7 +42,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('/projects/delete/{id?}', 'ProjectController@getDelete');
 	Route::post('/projects/create', 'ProjectController@postCreate');
 	Route::post('/projects/status/{id}', 'ProjectController@postStatus');  // Change status with Ajax post call
-	
+	Route::get('/projects/edit/{id}', 'ProjectController@getEdit');
+	Route::post('/projects/edit', 'ProjectController@postEdit');
 	
 	// Task Routes
     //Route::get('/tasks/create', 'TaskController@getCreate');
