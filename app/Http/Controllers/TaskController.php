@@ -235,8 +235,24 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function getDelete($id)
     {
-        //
+        $task = Task::where('id', '=', $id)
+			->where('user_id', '=', \Auth::id())
+			->first();
+		
+		if($task) {
+			// Set the flash message for completing the deletion
+			\Session::flash('alert-success', "Task deleted successfully.");
+			$task->delete(); // Delete the task
+		} else {
+			\Session::flash('alert-danger', "You don't have permission to delete the task.");
+		}
+		
+		// Return a collection of all the tasks for the user
+		//$tasks = Task::where('user_id','=',\Auth::id())->orderBy('due_date', 'desc')->get();
+		
+		//return view('task.index')->with('tasks', $tasks);
+		return back()->withInput();
     }
 }

@@ -39,14 +39,16 @@ Route::group(['middleware' => 'auth'], function() {
 	
 	// Project Routes
 	Route::get('/projects', 'ProjectController@getIndex');  //Show Project list
-	Route::get('/projects/delete/{id?}', 'ProjectController@getDelete');
+	Route::get('/projects/delete/{id}', 'ProjectController@getDelete');
 	Route::post('/projects/create', 'ProjectController@postCreate');
 	Route::post('/projects/status/{id}', 'ProjectController@postStatus');  // Change status with Ajax post call
 	Route::get('/projects/edit/{id}', 'ProjectController@getEdit');
 	Route::post('/projects/edit', 'ProjectController@postEdit');
 	
 	// Task Routes
+	Route::get('/tasks', 'TaskController@getIndex');  //Show Home page
     //Route::get('/tasks/create', 'TaskController@getCreate');
+	Route::get('/tasks/delete/{id}', 'TaskController@getDelete');
     Route::post('/tasks/create', 'TaskController@postCreate');
 	Route::post('/tasks/search', 'TaskController@postSearch');
 
