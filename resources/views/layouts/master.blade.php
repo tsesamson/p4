@@ -76,8 +76,8 @@
 		<script src="https://cdn.jsdelivr.net/bootstrap.timepicker/0.2.6/js/bootstrap-timepicker.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
 		
-		
 		<script src="/assets/js/taskdriver.js"></script>
+		<script src="/assets/js/tasktimer.js"></script>
 		<script type="text/javascript">
 			$_token = '{{ csrf_token() }}';
 			// set up jQuery with the CSRF token, or else post routes will fail
