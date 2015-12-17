@@ -46,7 +46,7 @@
                            </div>
                            <div class="col-md-1">
                               <div class="col-md-12">
-                                    <input type="text" class="form-control" name="duration" id="duration" maxlength="25" placeholder="0:00" value="">
+                                    <input type="text" class="form-control" name="duration" id="duration" maxlength="25" placeholder="0:00:00" value="">
                               </div>
                            </div>
                            <div class="col-md-3">
