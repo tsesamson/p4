@@ -22,7 +22,7 @@ class TaskController extends Controller
      */
     public function getIndex()
     {
-		$tasks = Task::with('timers')->where('user_id', '=', \Auth::id())->get();
+		$tasks = Task::with('timers')->where('user_id', '=', \Auth::id())->orderBy('due_date', 'desc')->get();
 		
         return view('task.index')->with('tasks', $tasks);
     }
@@ -165,24 +165,80 @@ class TaskController extends Controller
 		// Check to see if result set is empty, if so, proceed to search tasks from project name
 		if(count($tasks)==0){
 			$project = Project::where('name','=',$hashTag)->first();
-			$tasks = Project::find($project->id)->tasks;
-			$isTagSearch = false;
+			if($project) {
+				$tasks = Project::find($project->id)->tasks;
+				$isTagSearch = false;
+			}
 		}
 		
 		if(count($tasks)==0){ $isTagSearch = false; }
 		
 		return view('task.search')->with('tasks', $tasks)->with('hashTag', $hashTag)->with('isTagSearch', $isTagSearch);
     }
+
+	/*
+	 * Status update of the task that returns an ajax response
+	 */
+	public function ajaxUpdate($id, Request $request)
+	{
+		$task = Task::findOrFail($id);
+		
+		if($task && isset($_POST['description']) && isset($_POST['dueDate'])) {
+			try {				
+				$task->updated_by = \Auth::id();
+				$task->due_date = Carbon::parse($request->input('dueDate'));
+				
+				$task->description = $request->input('description');
+				
+				$task->tags()->delete(); // Remove all current hashtags associated with this task
+				
+				// TODO: If tag name is an email, add user to assigned_to field
+				$hashTags = Helper::create()->getTagsFromString($request->input('description'));  
+				
+				\DB::transaction(function() use ($task, $hashTags) {
+				
+					foreach($hashTags as $tagName){
+						$tag = Tag::where('name', '=', $tagName)
+							->where('user_id', '=', \Auth::id())->first();
+						
+						if($tag) {
+							$task->tags()->save($tag);  // Save tag to task
+						} else {
+							$tag = new Tag();  // Create new tag
+							$tag->name = $tagName;
+							$tag->user_id = \Auth::id();
+							$task->tags()->save($tag);
+							//$tag->save();
+						}
+					}
+					
+					$task->save();
+				});
+
+			} catch(Exception $e) {
+				
+				$data = array('error' => 'Unable to update task record.');		
+				//return  Response::json($data, 500);
+			}
+		}
+		
+		// Pass back some data, along with the original data, just to prove it was received
+		$data = array('success' => 'Task updated successfully.', 'id' => $id, 'input' => $request->input());
+		
+		// Return the success JSON response
+		return response()->json($data, 200);
+	}
 	
 	/*
 	 * Status update of the task that returns an ajax response
 	 */
-	public function postStatus($id, Request $request)
+	public function ajaxStatus($id, Request $request)
 	{
 		$task = Task::findOrFail($id);
 		
 		if($task && isset($_POST['status'])) {
 			try {
+				$task->updated_by = \Auth::id();
 				$task->status = $request->input('status');
 				$task->save();
 			} catch(Exception $e){

@@ -172,12 +172,13 @@ class ProjectController extends Controller
 	/*
 	 * Status update of the project that returns an ajax response
 	 */
-	public function postStatus($id, Request $request)
+	public function ajaxStatus($id, Request $request)
 	{
 		$project = Project::findOrFail($id);
 		
 		if($project && isset($_POST['status'])) {
 			try {
+				$project->updated_by = \Auth::id();
 				$project->status = $request->input('status');
 				$project->save();
 			} catch(Exception $e){

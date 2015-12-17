@@ -41,7 +41,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('/projects', 'ProjectController@getIndex');  //Show Project list
 	Route::get('/projects/delete/{id}', 'ProjectController@getDelete');
 	Route::post('/projects/create', 'ProjectController@postCreate');
-	Route::post('/projects/status/{id}', 'ProjectController@postStatus');  // Change status with Ajax post call
+	Route::post('/projects/ajax/status/{id}', 'ProjectController@ajaxStatus');  // Change status with Ajax post call
 	Route::get('/projects/edit/{id}', 'ProjectController@getEdit');
 	Route::post('/projects/edit', 'ProjectController@postEdit');
 	
@@ -50,7 +50,8 @@ Route::group(['middleware' => 'auth'], function() {
     //Route::get('/tasks/create', 'TaskController@getCreate');
 	Route::get('/tasks/delete/{id}', 'TaskController@getDelete');
     Route::post('/tasks/create', 'TaskController@postCreate');
-	Route::post('/tasks/status/{id}', 'TaskController@postStatus');  // Change status with Ajax post call
+	Route::post('/tasks/ajax/status/{id}', 'TaskController@ajaxStatus');  // Change status with Ajax post call
+	Route::post('/tasks/ajax/update/{id}', 'TaskController@ajaxUpdate');  // Update task with Ajax post call
 	Route::post('/tasks/search', 'TaskController@postSearch');
 
 	// Test POST AJAX route
@@ -71,7 +72,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 // Used to confirm that the authentication is working (can be removed after auth is tested)
 Route::get('/confirm-login', function() {
-	$user = Auth::user();
+	/*$user = Auth::user();
 
 	if($user) {
 		echo 'You are logged in ';
@@ -79,7 +80,7 @@ Route::get('/confirm-login', function() {
 	} else {
 		echo 'You are not logged in';
 	}
-	return;
+	return;*/
 });
 
 // Debug Route

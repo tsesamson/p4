@@ -58,7 +58,7 @@ jQuery.fn.removeHighlight = function() {
 	}).end();
 };
 
-$('body').highlight(/(#\S+@\S+\.\S+)|(\B#\w+)/)  //Both #tag and #email
+$('body').highlight(/(#\S+@\S+\.\S+)|(\B#\w+)/);  //Both #tag and #email
 //$('body').highlight(/\B#\w+/) //#tag only
 //$('body').highlight(/\#S+@\S+\.\S+/) //#email only
 
@@ -69,18 +69,18 @@ function saveProjectStatus(id) {
 	if(stat == 'completed') { stat = 'started'; }
 	else { stat = 'completed'; }
 	
-	$.post('/projects/status/'+id, {status:stat, _token:$_token}).success(function(data, status, xhr){
+	$.post('/projects/ajax/status/'+id, {status:stat, _token:$_token}).success(function(data, status, xhr){
 		
 		// Change the background color when project marked as 'complete'
 		if(data['input']['status'] == 'completed') {
 			if(!$('#project'+data['id']).hasClass('bg-success')){
 				$('#project'+data['id']).addClass('bg-success');
-				$('#txtProjectStatus'+id).val('completed'); // Change the hidden field value
+				$('#txtProjectStatus'+data['id']).val('completed'); // Change the hidden field value
 			}
 		} else if(data['input']['status'] == 'started') {
 			if($('#project'+data['id']).hasClass('bg-success')){
 				$('#project'+data['id']).removeClass('bg-success');
-				$('#txtProjectStatus'+id).val('started'); // Change the hidden field value
+				$('#txtProjectStatus'+data['id']).val('started'); // Change the hidden field value
 			}
 		}
 		
@@ -100,18 +100,18 @@ function saveTaskStatus(id) {
 	if(stat == 'completed') { stat = 'started'; }
 	else { stat = 'completed'; }
 	
-	$.post('/tasks/status/'+id, {status:stat, _token:$_token}).success(function(data, status, xhr){
+	$.post('/tasks/ajax/status/'+id, {status:stat, _token:$_token}).success(function(data, status, xhr){
 		
 		// Change the background color when tasks marked as 'complete'
 		if(data['input']['status'] == 'completed') {
 			if(!$('#task'+data['id']).hasClass('bg-success')){
 				$('#task'+data['id']).addClass('bg-success');
-				$('#txtTaskStatus'+id).val('completed'); // Change the hidden field value
+				$('#txtTaskStatus'+data['id']).val('completed'); // Change the hidden field value
 			}
 		} else if(data['input']['status'] == 'started') {
 			if($('#task'+data['id']).hasClass('bg-success')){
 				$('#task'+data['id']).removeClass('bg-success');
-				$('#txtTaskStatus'+id).val('started'); // Change the hidden field value
+				$('#txtTaskStatus'+data['id']).val('started'); // Change the hidden field value
 			}
 		}
 		
@@ -122,14 +122,47 @@ function saveTaskStatus(id) {
 
 //Test method used to save task
 function saveTask(id){
-	if(document.getElementById('txtDescription' + id).value != ''
-	&& document.getElementById('divDescription' + id).innerHTML != ''){
-		toggle_visibility('txtDescription' + id);
-		toggle_visibility('divDescription' + id);
+	var txtDesc = $('#txtDescription'+id).val();
+	var txtDueDate = $('#dueDate'+id).val();
+	var divDesc = $('#divDescription'+id).val();
+	var divDueDate = $('#divDueDate'+id).val();
+	
+	if(txtDesc == divDesc && txtDueDate == divDueDate) {
+		// Update current div and buttons
+			toggle_visibility('txtDescription' + data['id']);
+			toggle_visibility('divDescription' + data['id']);
+			toggle_visibility('dueDate' + data['id']);
+			toggle_visibility('divName' + data['id']);
+			toggle_visibility('divDueDate' + data['id']);
+			toggle_edit_icon('btnDescription' + data['id']);
+	} else {
+		// Make ajax call to update record
+		$.post('/tasks/ajax/update/'+id, {description:txtDesc, dueDate:txtDueDate, _token:$_token}).success(function(data, status, xhr){
+			
+			// Update div content
+			$('#divDueDate'+data['id']).text(data['input']['dueDate']);
+			$('#divDescription'+data['id']).text(data['input']['description']);		
+			
+			/*if(document.getElementById('txtDescription' + data['id']).value != ''
+			&& document.getElementById('divDescription' + data['id']).innerHTML != ''){
+				toggle_visibility('txtDescription' + data['id']);
+				toggle_visibility('divDescription' + data['id']);
+			}*/
+			
+			// Update current div and buttons
+			toggle_visibility('txtDescription' + data['id']);
+			toggle_visibility('divDescription' + data['id']);
+			toggle_visibility('dueDate' + data['id']);
+			toggle_visibility('divName' + data['id']);
+			toggle_visibility('divDueDate' + data['id']);
+			toggle_edit_icon('btnDescription' + data['id']);
+			
+			// Reload tag highlight
+			$('#divDescription'+data['id']).highlight(/(#\S+@\S+\.\S+)|(\B#\w+)/);
+		});
 	}
-	toggle_visibility('dueDate' + id);
-	toggle_visibility('divName' + id);
-	toggle_edit_icon('btnDescription' + id);
+	
+
 }
 
 //Test Code to toggle task description
