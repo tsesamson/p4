@@ -97,11 +97,12 @@
 				@foreach($tasks as $task)
 			
                   <div class="panel panel-default" id="taskRecord{{$task->id}}" style="margin-top:15px;">
-                     <div class="panel-body">
+                     <div id="task{{$task->id}}" class="panel-body {{ ($task->status == 'completed')?'bg-success':'' }}">
                         <div class="row" style="padding:15px;">
                            <div class="col-md-2">
                               <div class="col-md-12">
                               	<div id="divName{{$task->id}}"><strong>{{$task->project->name}}</strong></div>
+								<div id="divDueDate{{$task->id}}" name="divDueDate{{$task->id}}" style="font-size:10px;">Due: {{$task->dueDate()}}</div>
 								<input type="text" class="form-control" id="dueDate{{$task->id}}" name="dueDate{{$task->id}}" data-provide="datepicker" style="display:none;" maxlength="25" placeholder="Due Date" value="{{$task->dueDate()}}">
                               </div>
                            </div>
@@ -127,7 +128,8 @@
                                  <div class="btn-toolbar" role="toolbar">
                                  	<button id="btnDescription{{$task->id}}" type="button" class="btn btn-default" onclick="saveTask('{{$task->id}}');"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
                                  	<!--<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>-->
-                                 	<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+                                 	<button type="button" class="btn btn-default" onclick="saveTaskStatus({{ $task->id }});"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+									<input id="txtTaskStatus{{ $task->id }}" type="hidden" name="txtTaskStatus{{ $task->id }}" value="{{ $task->status }}">
 									<a href="/tasks/delete/{{ $task->id }}" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                                  </div>
                               </div>

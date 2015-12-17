@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth'], function() {
     //Route::get('/tasks/create', 'TaskController@getCreate');
 	Route::get('/tasks/delete/{id}', 'TaskController@getDelete');
     Route::post('/tasks/create', 'TaskController@postCreate');
+	Route::post('/tasks/status/{id}', 'TaskController@postStatus');  // Change status with Ajax post call
 	Route::post('/tasks/search', 'TaskController@postSearch');
 
 	// Test POST AJAX route

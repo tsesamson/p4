@@ -62,6 +62,7 @@ $('body').highlight(/(#\S+@\S+\.\S+)|(\B#\w+)/)  //Both #tag and #email
 //$('body').highlight(/\B#\w+/) //#tag only
 //$('body').highlight(/\#S+@\S+\.\S+/) //#email only
 
+// Save project status and update project class with js
 function saveProjectStatus(id) {
 	var stat = $('#txtProjectStatus'+id).val();
 	
@@ -89,6 +90,33 @@ function saveProjectStatus(id) {
 		
 		//console.log(data['input']);
 		//console.log(data['success']);
+	});
+}
+
+// Save task status and update project class with js
+function saveTaskStatus(id) {
+	var stat = $('#txtTaskStatus'+id).val();
+	
+	if(stat == 'completed') { stat = 'started'; }
+	else { stat = 'completed'; }
+	
+	$.post('/tasks/status/'+id, {status:stat, _token:$_token}).success(function(data, status, xhr){
+		
+		// Change the background color when tasks marked as 'complete'
+		if(data['input']['status'] == 'completed') {
+			if(!$('#task'+data['id']).hasClass('bg-success')){
+				$('#task'+data['id']).addClass('bg-success');
+				$('#txtTaskStatus'+id).val('completed'); // Change the hidden field value
+			}
+		} else if(data['input']['status'] == 'started') {
+			if($('#task'+data['id']).hasClass('bg-success')){
+				$('#task'+data['id']).removeClass('bg-success');
+				$('#txtTaskStatus'+id).val('started'); // Change the hidden field value
+			}
+		}
+		
+		// Change the status badge
+		//$('#taskStatusBadge'+data['id']).text(data['input']['status']);
 	});
 }
 

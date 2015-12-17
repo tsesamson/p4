@@ -174,6 +174,31 @@ class TaskController extends Controller
 		return view('task.search')->with('tasks', $tasks)->with('hashTag', $hashTag)->with('isTagSearch', $isTagSearch);
     }
 	
+	/*
+	 * Status update of the task that returns an ajax response
+	 */
+	public function postStatus($id, Request $request)
+	{
+		$task = Task::findOrFail($id);
+		
+		if($task && isset($_POST['status'])) {
+			try {
+				$task->status = $request->input('status');
+				$task->save();
+			} catch(Exception $e){
+				$data = array('error' => 'Unable to update task status.');		
+				//return  Response::json($data, 500);
+			}
+		}
+		
+		// Pass back some data, along with the original data, just to prove it was received
+		$data = array('success' => 'Task status updated successfully.', 'id' => $id, 'input' => $request->input());
+		
+		// Return the success JSON response
+		return response()->json($data, 200);
+	}
+
+	
     /**
      * Show the form for creating a new resource.
      *
@@ -251,8 +276,9 @@ class TaskController extends Controller
 		
 		// Return a collection of all the tasks for the user
 		//$tasks = Task::where('user_id','=',\Auth::id())->orderBy('due_date', 'desc')->get();
-		
+
+		return redirect('home');		
 		//return view('task.index')->with('tasks', $tasks);
-		return back()->withInput();
+		//return back()->withInput();
     }
 }

@@ -82,7 +82,7 @@
 				    </div>
 
 				@foreach($projects as $project)
-                  <div class="panel panel-default" id="projectList" style="margin-top:15px;">
+                  <div class="panel panel-default" id="projectRecord{{$project->id}}" style="margin-top:15px;">
                      <div id="project{{$project->id}}" class="panel-body {{ ($project->status == 'completed')?'bg-success':'' }}">
 					 
                         <div class="row" style="padding:15px;">
