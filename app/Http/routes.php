@@ -47,13 +47,17 @@ Route::group(['middleware' => 'auth'], function() {
 	
 	// Task Routes
 	Route::get('/tasks', 'TaskController@getIndex');  //Show Home page
-    //Route::get('/tasks/create', 'TaskController@getCreate');
 	Route::get('/tasks/delete/{id}', 'TaskController@getDelete');
     Route::post('/tasks/create', 'TaskController@postCreate');
 	Route::post('/tasks/ajax/status/{id}', 'TaskController@ajaxStatus');  // Change status with Ajax post call
 	Route::post('/tasks/ajax/update/{id}', 'TaskController@ajaxUpdate');  // Update task with Ajax post call
 	Route::post('/tasks/search', 'TaskController@postSearch');
-
+	
+	// Timer Routes
+	Route::post('/timers/ajax/start/{id}', 'TimerController@ajaxStart');  // Start timer with Ajax post call
+	Route::post('/timers/ajax/stop/{id}', 'TimerController@ajaxStop');  // Stop timer with Ajax post call
+	
+	
 	// Test POST AJAX route
 	/*Route::post('/tasks/create', function () {
 		// pass back some data, along with the original data, just to prove it was received

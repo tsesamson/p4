@@ -3,6 +3,7 @@
 
 // Global Variables
 
+var controlName = 'duration';
 var timeInterval = 1000;
 var allTimers = [];
 var d = new Date();
@@ -51,7 +52,7 @@ function stringToSecond(v){
 function initTimer(id){
 
 	//Grab the value in timer textbox
-	var initValue = $("#" + id).val();
+	var initValue = $("#"+ controlName + id).val();
 
 	if(allTimers[id] === undefined ){
 		//var pos = allTimers.length;
@@ -71,8 +72,8 @@ function initTimer(id){
 		}
 
 		//Set toggle timer function
-		$('#btn'+id).removeAttr('onclick')
-		$('#btn'+id).on('click',function(){
+		$('#btn'+controlName+id).removeAttr('onclick')
+		$('#btn'+controlName+id).on('click',function(){
 			if($(this).attr('data-click-state') == 1) {
 				$(this).attr('data-click-state', 0)
 				startTimer(id);  //Change onclick to startTimer function
@@ -94,17 +95,19 @@ function startTimer(id){
 	allTimers[id]["starttime"] = nowSeconds;
 	allTimers[id]["stopped"] = false;
 
-	//Make textbox readonly
-	$('#' + id).attr('readonly', true);
-	$('#' + id).addClass('input-disabled');
+	// Start the timer on the server	
+	$.post('/timers/ajax/start/'+id, {_token:$_token}).success(function(data, status, xhr){
+		// Make textbox readonly
+		$('#'+ controlName + id).attr('readonly', true);
+		$('#'+ controlName + id).addClass('input-disabled');
+		
+		togglePlayIcon('btn' + controlName + id);
+		activeTimers++;
 
-
-	togglePlayIcon('btn' + id);
-	activeTimers++;
-
-	if(activeTimers==1){ // We have started the first timer!
-		setTimeout("updateTimes()", timeInterval);
-	}
+		if(activeTimers==1){ // We have started the first timer!
+			setTimeout("updateTimes()", timeInterval);
+		}
+	});
 }
 
 // Stop a timer from counting and toggle the button displays.
@@ -117,12 +120,16 @@ function stopTimer(id){
 	allTimers[id]["starttime"] = 0;
 	allTimers[id]["stopped"] = true;
 
-	//Make textbox readonly
-	$('#' + id).attr('readonly', false);
-	$('#' + id).removeClass('input-disabled');
+	// Stop the timer on the server	
+	$.post('/timers/ajax/stop/'+id, {_token:$_token}).success(function(data, status, xhr){
+		//Enable textbox 
+		$('#'+ controlName + id).attr('readonly', false);
+		$('#'+ controlName + id).removeClass('input-disabled');
 
-	togglePlayIcon('btn' + id);
-	activeTimers--;
+		togglePlayIcon('btn' + controlName + id);
+		activeTimers--;
+	});
+	
 }
 
 
@@ -133,7 +140,7 @@ function updateTimes(){
 	if(activeTimers>0){
 		for(var i in allTimers){
 			if(allTimers[i]!=null && allTimers[i]["started"]){
-				$('#' + allTimers[i]["id"]).val(getTimeStr(allTimers[i]["starttime"], allTimers[i]["accumulated"]));
+				$('#' + controlName + allTimers[i]["id"]).val(getTimeStr(allTimers[i]["starttime"], allTimers[i]["accumulated"]));
 				//console.log(allTimers[i]["id"]);
 			}
 		}

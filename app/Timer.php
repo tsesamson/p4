@@ -4,14 +4,39 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers\Helper as Helper;
+use Carbon\Carbon;
 
 class Timer extends Model
 {
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['created_at', 'updated_at', 'start', 'stop', 'deleted_at', ];
+	
     public function task() {
 		# Timer belongs to Task (one-to-many)
 		return $this->belongsTo('\App\Task');
 	}
 
+	// Start the current timer
+	public function start() {
+		$this->start = Carbon::now();
+		$this->created_by = \Auth::id();
+		$this->updated_by = \Auth::id();
+	}
+	
+	// Stop the current timer and save();
+	public function stop() {
+		$this->stop = Carbon::now();
+		$this->updated_by = \Auth::id();
+		
+		// Get the start/stop difference to calculate duration
+		$this->duration = $this->stop->diffInSeconds($this->start);
+		$this->save();
+	}
+	
 	/*
 	 * Trying to create a method that returns the proper format for duration field
 	 */
