@@ -39,7 +39,7 @@ function stringToSecond(v){
 		result += parseInt(timeArray[1])*60; //Convert min to second
 		result += parseInt(timeArray[2]); //Add seconds
 
-		console.log(parseInt(timeArray[2]));
+		//console.log(parseInt(timeArray[2]));
 
 		return result;
 	}
@@ -114,15 +114,31 @@ function startTimer(id){
 function stopTimer(id){
 	var dt = new Date();
 	var nowSeconds = Math.floor(dt.getTime()/1000);
+	var currentAccumulated = (nowSeconds - allTimers[id]["starttime"]);
 
 	allTimers[id]["started"] = false;
-	allTimers[id]["accumulated"] = allTimers[id]["accumulated"] + (nowSeconds - allTimers[id]["starttime"]);
+	allTimers[id]["accumulated"] = allTimers[id]["accumulated"] + currentAccumulated;
 	allTimers[id]["starttime"] = 0;
 	allTimers[id]["stopped"] = true;
+	
+	// Stop the timer on the server	and pass back the most recent logged duration
+	$.post('/timers/ajax/stop/'+id, {duration:currentAccumulated ,_token:$_token}).success(function(data, status, xhr){
+		allTimers[id]["recordid"] = data['timer']['id'];
+		allTimers[id]["lastlogged"] = data['lastlogged'];
+		
+		// Update statusMessage div
+		//$('#statusMessage').html('logged <strong>6 hours</strong> today - last entry <strong>29 minutes ago</strong>')
+		var statusString = 'logged <strong>' + getHumanDuration(data['timer']['duration']) + '</strong>';
+		
+		if(data['lastlogged']){
+			statusString = statusString + ' - last entry <strong>' + data['lastlogged'] + ' </strong>';
+		}
 
-	// Stop the timer on the server	
-	$.post('/timers/ajax/stop/'+id, {_token:$_token}).success(function(data, status, xhr){
-		//Enable textbox 
+		$('#statusMessage').hide();
+		$('#statusMessage').fadeIn('slow');
+		$('#statusMessage').html(statusString);
+		
+		// Enable textbox 
 		$('#'+ controlName + id).attr('readonly', false);
 		$('#'+ controlName + id).removeClass('input-disabled');
 
@@ -131,7 +147,6 @@ function stopTimer(id){
 	});
 	
 }
-
 
 // If we have some active running timers, loop though them and update the time message.
 // This function is executed once every <timeInterval> miliseconds.
@@ -147,6 +162,25 @@ function updateTimes(){
 		setTimeout("updateTimes()", timeInterval);
 	}
 
+}
+
+// Return duration in human readable format (i.e. 1 hr 12 mins 13 secs)
+function getHumanDuration(duration) {
+	var hours = Math.floor(duration / 3600);
+	var mins = Math.floor((duration - (hours*3600)) / 60);
+	var secs = Math.floor(duration % 60);
+	var result = '';
+	
+	// Assemble the string in readable format
+	if(hours > 0)
+		result = result + hours + ' hrs ';
+	
+	if(hours == 0 && mins == 0){}
+	else { result = result + mins + ' mins '; }
+	
+	result = result + secs + ' secs';
+	
+	return result;
 }
 
 // Used to toggle between play and pause icon

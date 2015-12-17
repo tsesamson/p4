@@ -19,7 +19,6 @@
 			
             <div class="row" style="float:right;">
                <div class="col-lg-12" id="statusMessage" name="statusMessage">
-                  logged <strong>6 hours</strong> today - last entry <strong>29 minutes ago</strong>
                </div>
             </div>
 
@@ -111,8 +110,8 @@
                                  <div class="input-group">
                                     <input type="text" class="form-control" name="duration{{$task->id}}" id="duration{{$task->id}}" maxlength="25" placeholder="0:00:00" value="{{$task->duration()}}">
                                     <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" id="btnduration{{$task->id}}" onclick="startTimer('{{$task->id}}');"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
                                     <a class="btn btn-default" style="{{(count($task->timers) > 1)?'display:inline-block;':'display:none;'}}" role="button" data-toggle="collapse" data-parent="#taskTimer" href="#collapseTimerHistory" aria-expanded="false" aria-controls="collapseTimerHistoryGroup"><span class="glyphicon glyphicon-time"></span></a>
+									<button class="btn btn-default" type="button" id="btnduration{{$task->id}}" onclick="startTimer('{{$task->id}}');"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
                                     </span>
                                  </div>
                               </div>

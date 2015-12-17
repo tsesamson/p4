@@ -67,11 +67,21 @@ class TimerController extends Controller
 	{
 		$task = Task::with('project')->findOrFail($task_id);
 		$timers = Timer::where('task_id', '=', $task_id)->where('duration', '=', 0)->whereNotNull('start')->get();
+		$timer = null;
 		
 		// If there's a lingering timer, we have to stop it out
-		if($task && count($timers)>0) {
+		if($task && count($timers)>1) {
 			foreach($timers as $timer){
 				$timer->stop();
+			}
+		} else if(count($timers)==1){
+			
+			$timer = $timers[0];
+			if(isset($_POST['duration']))
+			{
+				$timer->stopByDuration($request->input('duration'));
+			} else {
+				$timer->stop;
 			}
 		}
 		
@@ -82,7 +92,14 @@ class TimerController extends Controller
 		$task->project->duration += $timer->duration;
 		$task->project->save();
 		
-		$data = array('success' => 'Timer stopped successfully.', 'timer' => $timer, 'input' => $request->input());
+		// Get lastlogged time
+		$lastLogged = '';
+		$lastTimers = Timer::where('updated_by', '=', \Auth::id())->orderBy('updated_at', 'desc')->take(2)->get();
+		if(count($lastTimers) == 2){
+			$lastLogged = $lastTimers[1]->updated_at->diffForHumans();
+		}
+		
+		$data = array('success' => 'Timer stopped successfully.', 'timer' => $timer, 'lastlogged' => $lastLogged , 'input' => $request->input());
 		
 		// Return the success JSON response
 		return response()->json($data, 200);

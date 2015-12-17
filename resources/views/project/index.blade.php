@@ -20,7 +20,6 @@
 			
             <div class="row" style="float:right;">
                <div class="col-lg-12" id="statusMessage" name="statusMessage">
-                  logged <strong>6 hours</strong> today - last entry <strong>29 minutes ago</strong>
                </div>
             </div>
 

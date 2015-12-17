@@ -36,6 +36,17 @@ class Timer extends Model
 		$this->duration = $this->stop->diffInSeconds($this->start);
 		$this->save();
 	}
+
+	// Stop the current timer by using the most recent duration (in seconds) logged and save();
+	public function stopByDuration($duration) {
+		$this->stop = $this->start->addSeconds($duration); //Use the duration passed in by js timer to sync the time
+		$this->updated_by = \Auth::id();
+		
+		// Get the start/stop difference to calculate duration
+		//$this->duration = $this->stop->diffInSeconds($this->start);
+		$this->duration = $duration;
+		$this->save();
+	}
 	
 	/*
 	 * Trying to create a method that returns the proper format for duration field
