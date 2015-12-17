@@ -17,13 +17,10 @@
 			<!-- pass through the CSRF (cross-site request forgery) token -->
 			<input type="hidden" value="{{ csrf_token() }}" name="_token"/>
 			
-            <!--<div class="row" style="float:right;">
+            <div class="row" style="float:right;">
                <div class="col-lg-12" id="statusMessage" name="statusMessage">
-                  logged <strong>6 hours</strong> today - last entry <strong>29 minutes ago</strong>
                </div>
-            </div>-->
-
-
+            </div>
 
 			<!-- Header to group the tasks by dates -->
 			<div class="row">
@@ -69,7 +66,7 @@
                                  <div class="input-group">
                                     <input type="text" class="form-control" name="duration{{$task->id}}" id="duration{{$task->id}}" maxlength="25" placeholder="0:00:00" value="{{$task->duration()}}">
                                     <span class="input-group-btn">
-                                    <a class="btn btn-default" style="{{(count($task->timers) > 1)?'display:inline-block;':'display:none;'}}" role="button" data-toggle="collapse" data-parent="#taskTimer" href="#collapseTimerHistory" aria-expanded="false" aria-controls="collapseTimerHistoryGroup"><span class="glyphicon glyphicon-time"></span></a>
+									<a id="btnTimerHistory{{$task->id}}" class="btn btn-default" style="{{(count($task->timers) >= 1)?'display:inline-block;':'display:none;'}}" role="button" data-toggle="collapse" data-parent="#taskTimer" href="#collapseTimerHistory{{$task->id}}" aria-expanded="false" aria-controls="collapseTimerHistoryGroup"><span class="glyphicon glyphicon-time"></span></a>                                    
 									<button class="btn btn-default" type="button" id="btnduration{{$task->id}}" onclick="startTimer('{{$task->id}}');"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
                                     </span>
                                  </div>
@@ -95,30 +92,37 @@
                         </div><!-- End of Row for task input box -->
 
                         <!-- Collapsed history section for this task -->
-						@if(count($task->timers) > 1)
-							@foreach($task->timers as $timer)
-							<div id="collapseTimerHistory" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-							   <div class="panel-body">
-								  <div class="row" style="padding-top:15px;">
-									 <div id="timerStart{{$timer->id}}" class="col-md-2">{{$timer->startDate()}}</div>
-									 <div class="col-md-2">
-										<div name="timerDuration{{$timer->id}}" id="timerDuration{{$timer->id}}">{{$timer->duration()}}</div>
-									 </div>
-									 <div id="timerComment{{$timer->id}}" class="col-md-6">
-										<input type="text" class="form-control" name="timerComment{{$timer->id}}" id="timerComment{{$timer->id}}" maxlength="255" placeholder="Comments ..." value="{{$timer->comment}}">
-									 </div>
-									 <div class="col-md-2">
-										<div class="col-md-12">
-										   <div class="btn-toolbar" role="toolbar">
-											  <button type="button" id="btnTimerDelete{{$timer->id}}" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-										   </div>
-										</div>
-									 </div>
-								  </div>						
+
+							<div id="collapseTimerHistory{{$task->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+							   <div class="panel-body" id="collapseBodyHistory{{$task->id}}">
+
+								@if(count($task->timers) >= 1)
+									@foreach($task->timers as $timer)							   
+									   
+									  <div class="row" style="padding-top:15px;">
+										 <div class="col-md-3">
+											<div name="timerDuration{{$timer->id}}" id="timerDuration{{$timer->id}}">
+												Logged <strong>{{$timer->duration()}}</strong> - {{$timer->lastUpdatedHuman()}}
+											</div>
+										 </div>
+										 <div class="col-md-7">
+											<input type="text" class="form-control" name="timerComment{{$timer->id}}" id="timerComment{{$timer->id}}" maxlength="255" placeholder="Comments ..." value="{{$timer->comment}}">
+										 </div>
+										 <div class="col-md-2">
+											<div class="col-md-12">
+											   <div class="btn-toolbar" role="toolbar">
+												  <a href="/timers/delete/{{ $timer->id }}" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+											   </div>
+											</div>
+										 </div>
+									  </div>
+
+									@endforeach
+								@endif
+								  
 							   </div><!--End of panel-body -->
 							</div><!--End of collapseTimeHistory -->
-							@endforeach
-						@endif
+
 
                      </div><!--End of panel-body -->
                   </div><!--End of taskTimerRecord panel -->

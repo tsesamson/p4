@@ -56,6 +56,7 @@ Route::group(['middleware' => 'auth'], function() {
 	// Timer Routes
 	Route::post('/timers/ajax/start/{id}', 'TimerController@ajaxStart');  // Start timer with Ajax post call
 	Route::post('/timers/ajax/stop/{id}', 'TimerController@ajaxStop');  // Stop timer with Ajax post call
+	Route::get('/timers/delete/{id}', 'TimerController@getDelete');
 	
 	
 	// Test POST AJAX route

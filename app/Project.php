@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Helpers\Helper as Helper;
+
 class Project extends Model
 {
     public function tasks() {
@@ -11,6 +13,35 @@ class Project extends Model
 		return $this->hasMany('\App\Task');
 	}
 
+	/*
+	 * Trying to create a method that returns the duration field
+	 */
+	public function duration() {
+		
+		if($this->duration == 0){
+			return '';
+		} else {
+			return Helper::create()->getSecondsInDuration($this->duration);
+		}
+		
+		return $this->duration;
+	}
+	
+	/*
+	 * Trying to create a method that returns the duration field in human readable format
+	 */
+	public function durationForHuman() {
+		
+		if($this->duration == 0){
+			return '';
+		} else {
+			return Helper::create()->durationToString($this->duration);
+		}
+		
+		return $this->duration;
+	}
+	
+	
 	/*
 	 * Creating a method that will return start date in date format that matches the datepicker js
 	 */

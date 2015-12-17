@@ -70,13 +70,14 @@ class TaskController extends Controller
 			if(!$project){
 				$project = new Project();
 				$project->name = $request->input('projectName');
+				$project->duration = 0;
 				$project->user_id = \Auth::id();
 				$project->created_by = \Auth::id();
-				$project->updated_by = \Auth::id();
-				
 			}
 			
+			$project->duration += $task->duration; //Add the task duration to the project duration
 			$task->project_id = $project->id;
+			$project->updated_by = \Auth::id();
 		}		
 
 		$hashTags = array();
@@ -318,11 +319,14 @@ class TaskController extends Controller
      */
     public function getDelete($id)
     {
-        $task = Task::where('id', '=', $id)
+        $task = Task::with('project')->where('id', '=', $id)
 			->where('user_id', '=', \Auth::id())
 			->first();
 		
 		if($task) {
+			$task->project->duration -= $task->duration; //Remove the task duration to the project duration
+			$task->project->save();
+			
 			// Set the flash message for completing the deletion
 			\Session::flash('alert-success', "Task deleted successfully.");
 			$task->delete(); // Delete the task

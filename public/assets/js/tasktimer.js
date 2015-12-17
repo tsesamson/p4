@@ -138,6 +138,15 @@ function stopTimer(id){
 		$('#statusMessage').fadeIn('slow');
 		$('#statusMessage').html(statusString);
 		
+		//Check to see if history button is hidden (if so, it is first timer)
+		// Show timer history button if it is hidden
+		$('#btnTimerHistory' + id).css("display","inline-block");
+		
+		//Insert a row above current row
+		$( "#collapseBodyHistory" + id).prepend( getTimerRowHtml(data['timer']) );
+		
+		//console.log(data['timer']);
+		
 		// Enable textbox 
 		$('#'+ controlName + id).attr('readonly', false);
 		$('#'+ controlName + id).removeClass('input-disabled');
@@ -162,6 +171,27 @@ function updateTimes(){
 		setTimeout("updateTimes()", timeInterval);
 	}
 
+}
+
+// Get the row html for a specific timer
+function getTimerRowHtml(timer){
+	var result = '';
+	
+	result += '<div class="row" style="padding-top:15px;">';
+	result += '<div class="col-md-3">';
+	result += '<div name="timerDuration' + timer['id'] + '" id="timerDuration' + timer['id'] + '">';
+	result += 'Logged <strong>' + getHumanDuration(timer['duration']) + '</strong>';
+	result += '</div></div>';
+	result += '<div class="col-md-7">';
+	result += '<input type="text" class="form-control" name="timerComment' + timer['id'] + '" id="timerComment' + timer['id'] + '" maxlength="255" placeholder="Comments ..." value="' + timer['comment'] + '">';
+	result += '</div>';
+	result += '<div class="col-md-2">';
+	result += '<div class="col-md-12">';
+	result += '<div class="btn-toolbar" role="toolbar">';
+	result += '<a href="/timers/delete/' + timer['id'] + '" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>';
+	result += '</div></div></div></div>';
+	
+	return result;
 }
 
 // Return duration in human readable format (i.e. 1 hr 12 mins 13 secs)

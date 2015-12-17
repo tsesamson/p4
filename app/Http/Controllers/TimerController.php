@@ -159,6 +159,36 @@ class TimerController extends Controller
     {
         //
     }
+	
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getDelete($id)
+    {
+        $timer = Timer::with('task')->with('project')->where('id', '=', $id)
+			->first();
+		
+		if($timer) {
+			$timer->task->duration -= $timer->duration; //Remove the timer duration from the task duration
+			$timer->task->save();
+			
+			$timer->project->duration -= $timer->duration; //Remove the timer duration from the task duration
+			$timer->project->save();
+			
+			// Set the flash message for completing the deletion
+			\Session::flash('alert-success', "Timer deleted successfully.");
+			$timer->delete(); // Delete the task
+		} else {
+			\Session::flash('alert-danger', "You don't have permission to delete the timer.");
+		}
+
+		return redirect('home');		
+		//return view('task.index')->with('tasks', $tasks);
+		//return back()->withInput();
+    }
 
     /**
      * Remove the specified resource from storage.

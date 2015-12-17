@@ -19,6 +19,11 @@ class Timer extends Model
 		# Timer belongs to Task (one-to-many)
 		return $this->belongsTo('\App\Task');
 	}
+	
+    public function project() {
+		# Timer belongs to Project (one-to-many)
+		return $this->belongsTo('\App\Project');
+	}
 
 	// Start the current timer
 	public function start() {
@@ -60,6 +65,14 @@ class Timer extends Model
 		}
 		
 		return $this->duration;
+	}
+	
+	/*
+	 * Return last updated text in human readable form
+	 */
+	public function lastUpdatedHuman()
+	{
+		return $this->updated_at->diffForHumans();
 	}
 	
 	/*

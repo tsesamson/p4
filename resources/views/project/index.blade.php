@@ -92,9 +92,9 @@
 								<!--<input type="text" class="form-control" id="dueDate{{$project->id}}" name="dueDate{{$project->id}}" data-provide="datepicker" style="display:none;" maxlength="25" placeholder="Due Date" value="{{$project->dueDate()}}">-->
                               </div>
                            </div>
-                           <div class="col-md-1">
+                           <div class="col-md-2">
                               <div class="col-md-12">
-								<div id="projectDuration{{ $project->id }}" name="projectDuration{{ $project->id }}">{{ ($project->duration)?$project->duration:'0 Hrs' }}</div>
+								<div id="projectDuration{{ $project->id }}" name="projectDuration{{ $project->id }}">{{ $project->durationForHuman() }}</div>
 								<!--<input type="text" class="form-control" id="projectDuration{{ $project->id }}" name="projectDuration{{ $project->id }}" maxlength="25" placeholder="0:00" value="{{ ($project->duration)?$project->duration:'' }}">-->
                               </div>
                            </div>
@@ -104,7 +104,7 @@
                                  <div id="divDescription{{ $project->id }}">{{ $project->description }}</div>
                               </div>
                            </div>
-                           <div class="col-md-2">
+                           <div class="col-md-1">
                               <div class="col-md-12">
 								<div id="projectStatus{{ $project->id }}" name="projectStatus{{ $project->id }}"><span id="projectStatusBadge{{ $project->id }}" class="badge">{{ $project->status}}</span></div>
 								<input id="txtProjectStatus{{ $project->id }}" type="hidden" name="txtProjectStatus{{ $project->id }}" value="{{ $project->status }}">
