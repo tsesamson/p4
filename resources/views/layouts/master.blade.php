@@ -75,26 +75,12 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/bootstrap.timepicker/0.2.6/js/bootstrap-timepicker.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.0/bootstrap3-typeahead.min.js"></script>
 		
 		<script src="/assets/js/taskdriver.js"></script>
 		<script src="/assets/js/tasktimer.js"></script>
 		<script type="text/javascript">
-			$_token = '{{ csrf_token() }}';
-			// set up jQuery with the CSRF token, or else post routes will fail
-			$.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('#csrf_token').val() } });
-			
-			//Automatically loop thru and assign timer mask to input textbox starting with 'txt' and  ending in 'Duration'
-			//$('input[id^="txt"][id$="Duration"]').each(function(){
-			$('input[id^="duration"]').each(function(){
-				$('#' + this.id).timepicker({
-					minuteStep: 1,
-					template: 'modal',
-					appendWidgetTo: 'body',
-					showSeconds: true,
-					showMeridian: false,
-					defaultTime: false
-				});
-			});
+			//Adhoc custom js
 		</script>
 	
 	</body>

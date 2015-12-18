@@ -1,6 +1,37 @@
-//Initiate datepicker in datepicker input controls
+// Initiate datepicker in datepicker input controls
  $('.datepicker').datepicker()
 
+ // Set the csrf token
+$_token = '{{ csrf_token() }}';
+// set up jQuery with the CSRF token, or else post routes will fail
+$.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('#csrf_token').val() } });
+
+// Set autocomplet for searchbox			
+jQuery(document).ready(function() {
+	$('#txtHashTagSearch').typeahead({
+		minLength: 3,
+		source: function (query, process) {
+			//return $.get('/tags/ajax/search?q=' + query, function (data) {
+			return $.get('/tags/ajax/search/' + query, function (data) {
+				return process(data.search_results);
+			});
+		}
+	});
+})
+
+// Automatically loop thru and assign timer mask to input textbox starting with 'txt' and  ending in 'Duration'
+//$('input[id^="txt"][id$="Duration"]').each(function(){
+$('input[id^="duration"]').each(function(){
+	$('#' + this.id).timepicker({
+		minuteStep: 1,
+		template: 'modal',
+		appendWidgetTo: 'body',
+		showSeconds: true,
+		showMeridian: false,
+		defaultTime: false
+	});
+}); 
+ 
  /*
 
 highlight v3 - Modified by Marshal (beatgates@gmail.com) to add regexp highlight, 2011-6-24

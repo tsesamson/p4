@@ -21,7 +21,7 @@
                   <div class="form-group">
 					<input type="hidden" value="{{ csrf_token() }}" name="_token"/>
 					<div class="input-group">
-						<input type="text" id="txtHashTagSearch" name="txtHashTagSearch" class="form-control" placeholder="Search tag or project name">
+						<input type="text" id="txtHashTagSearch" name="txtHashTagSearch" class="form-control" data-provide="typeahead" placeholder="Search tag or project name">
 						<span class="input-group-btn">
 							<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>	
 						</span>

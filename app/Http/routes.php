@@ -59,6 +59,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('/timers/ajax/comment/{id}', 'TimerController@ajaxComment');  // Allow user to update comment with ajax
 	Route::get('/timers/delete/{id}', 'TimerController@getDelete');
 	
+	// Tag Routes
+	Route::get('/tags/ajax/search/{q}', 'TagController@ajaxSearch');  // Autocomplete search path
 	
 	// Test POST AJAX route
 	/*Route::post('/tasks/create', function () {
