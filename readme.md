@@ -10,7 +10,7 @@ The purpose of this project is to create a MVP task/project management tool with
 <http://screencast.com/t/PDcA7chh4M0>
 
 ## Details for teaching team
-The demo credential is demo/demo
+The credential is the default jill@harvard.edu with 'helloworld' or you can sign up for a new account.
 
 ## Outside Code
 * Laravel Framework: https://github.com/laravel/laravel
