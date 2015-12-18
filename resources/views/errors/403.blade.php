@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-	Task Driver - 503 Error Be right back
+	Task Driver - 403 Forbidden
 @stop
 
 @section('page-title')
@@ -20,7 +20,7 @@
 		<div class="col-md-6 col-md-offset-3">
 
 			<div class="error-bg">
-				<h1>503 Error - We'll be right back!</h1>
+				<h1>403 Error - Forbidden</h1>
 			</div>	
 
 		</div>
