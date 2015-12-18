@@ -203,6 +203,7 @@ function getTimerRowHtml(timer){
 	result += '<div class="col-md-2">';
 	result += '<div class="col-md-12">';
 	result += '<div class="btn-toolbar" role="toolbar">';
+	result += "<button class='btn btn-default' type='button' id='btnTimerComment" + timer['id'] + "' onclick='saveTimerComment(\"" + timer['id'] + "\");'><span class='glyphicon glyphicon-floppy-disk' aria-hidden='true'></span></button>";	
 	result += '<a href="/timers/delete/' + timer['id'] + '" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>';
 	result += '</div></div></div></div>';
 	
