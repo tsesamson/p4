@@ -72,6 +72,7 @@ class TaskController extends Controller
 				$project = new Project();
 				$project->name = $request->input('projectName');
 				$project->duration = 0;
+				$project->due_date = $task->due_date;  // If this is a new project it should use the same due_date as the task
 				$project->user_id = \Auth::id();
 				$project->created_by = \Auth::id();
 			}

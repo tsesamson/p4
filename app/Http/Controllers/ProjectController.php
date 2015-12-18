@@ -33,9 +33,10 @@ class ProjectController extends Controller
 	{
 		$this->validate($request, [
 			'dueDate' => 'required|date',
-			'duration' => 'numeric',
+			//'duration' => 'numeric',
 			'projectName' => 'required|min:1|max:255',
 			'projectDescription' => 'required|min:1|max:512',
+			'duration' => array('regex:/^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/'), //Change to regex duration format check instead
 		]);
 
 		$project = new Project();
