@@ -1,10 +1,3 @@
-// Initiate datepicker in datepicker input controls
- $('.datepicker').datepicker()
-
- // Set the csrf token
-$_token = '{{ csrf_token() }}';
-// set up jQuery with the CSRF token, or else post routes will fail
-$.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('#csrf_token').val() } });
 
 // Set autocomplet for searchbox			
 jQuery(document).ready(function() {

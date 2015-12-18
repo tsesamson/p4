@@ -80,7 +80,14 @@
 		<script src="/assets/js/taskdriver.js"></script>
 		<script src="/assets/js/tasktimer.js"></script>
 		<script type="text/javascript">
-			//Adhoc custom js
+			// Initiate datepicker in datepicker input controls
+			 $('.datepicker').datepicker()
+
+			 // Set the csrf token
+			$_token = '{{ csrf_token() }}';
+			// set up jQuery with the CSRF token, or else post routes will fail
+			$.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('#csrf_token').val() } });
+
 		</script>
 	
 	</body>
