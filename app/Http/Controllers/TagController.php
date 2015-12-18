@@ -31,11 +31,21 @@ class TagController extends Controller
 	 */
 	public function ajaxSearch($q)
 	{
-		$tags = Tag::where('user_id', '=', \Auth::id())->where('name', 'like', $q . '%')->take(10)->get();  // Find the first 10 records that matches the query
+		$tags = Tag::select('name')->where('user_id', '=', \Auth::id())->where('name', 'like', $q . '%')->take(10)->get();  // Find the first 10 records that matches the tags query
+		$projects = Project::select('name')->where('user_id', '=', \Auth::id())->where('name', 'like', $q . '%')->take(10)->get(); // Find the first 10 records that matches project name
 		$result = array();
 		
-		if(count($tags)>0) {
+		if(count($tags)>0 && count($projects)>0) {
+			
+			$result = array_merge(get_object_vars($tags), get_object_vars($projects));
+			
+		} else if(count($tags)>0 && count($projects)==0){
+			
 			$result = $tags;
+			
+		} else if(count($tags)==0 && count($projects)>0){
+			
+			$result = $projects;
 		}
 		
 		$data = array('search_results' => $result);

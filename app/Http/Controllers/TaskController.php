@@ -34,6 +34,7 @@ class TaskController extends Controller
 			//'txtInputDuration' => 'required|numeric',
 			'projectName' => 'required|min:1|max:255',
 			'taskDescription' => 'required|min:1|max:512',
+			'duration' => array('regex:/^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/'), //Change to regex duration format check instead
 		]);
 
 		$task = new Task();

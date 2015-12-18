@@ -111,7 +111,7 @@ class ProjectController extends Controller
 			//'startDate' => 'required|date',
 			//'endDate' => 'required|date',
 			'dueDate' => 'required|date',
-
+			'duration' => array('regex:/^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/'), //Change to regex duration format check instead
 		]);
 
 		$project = Project::find($request->input('projectId'));
@@ -161,6 +161,7 @@ class ProjectController extends Controller
 		// Set the flash message for completing the save
 		$request->session()->flash('alert-success', "Project '" . $project->name . "' updated successfully.");
 		
+		$request->flash();	//Send value of input back to 
 		
 		//return redirect('projects');
 		return view('project.edit')->with('project', $project);

@@ -39,23 +39,23 @@
                                     <span class="input-group-btn">
                                     <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></button>
                                     </span>
-                                    <input type="text" class="form-control" name="dueDate" id="dueDate" data-provide="datepicker" maxlength="25" placeholder="Due Date" value="">
+                                    <input type="text" class="form-control" name="dueDate" id="dueDate" data-provide="datepicker" maxlength="25" placeholder="Due Date" value="{{ old('dueDate') }}">
                                  </div>
                               </div>
                            </div>
                            <div class="col-md-1">
                               <div class="col-md-12">
-                                    <input type="text" class="form-control" name="duration" id="duration" maxlength="25" placeholder="0:00:00" value="">
+                                    <input type="text" class="form-control" name="duration" id="duration" maxlength="25" placeholder="0:00:00" value="{{ old('duration') }}">
                               </div>
                            </div>
                            <div class="col-md-3">
                               <div class="col-md-12">
-                                 <input type="text" class="form-control" name="projectName" id="projectName" maxlength="255" placeholder="Project Name" value="">
+                                 <input type="text" class="form-control" name="projectName" id="projectName" maxlength="255" placeholder="Project Name" value="{{ old('projectName') }}">
                               </div>
                            </div>
                            <div class="col-md-5">
                               <div class="col-md-12">
-                                 <input type="text" class="form-control" name="projectDescription" id="projectDescription" maxlength="255" placeholder="Project Description">
+                                 <input type="text" class="form-control" name="projectDescription" id="projectDescription" maxlength="255" placeholder="Project Description" value="{{ old('projectDescription') }}">
                               </div>
                            </div>
                            <div class="col-md-1">
