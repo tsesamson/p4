@@ -173,6 +173,21 @@ function updateTimes(){
 
 }
 
+// Save the comment textbox and display effect on textbox indicating record is saved
+function saveTimerComment(id) {
+	var commentVal = $('#timerComment'+id).val();
+	
+	$.post('/timers/ajax/comment/'+id, {comment:commentVal,_token:$_token}).success(function(data, status, xhr){
+		
+		// Fade textbox 3x to show a saved occured
+		//for(i=0; i<3; i++) {
+			$('#timerComment'+id).fadeTo('slow', 0.5).fadeTo('slow', 1.0);	
+		//}
+		
+	});
+}
+
+
 // Get the row html for a specific timer
 function getTimerRowHtml(timer){
 	var result = '';

@@ -155,7 +155,8 @@
 											 <div class="col-md-2">
 												<div class="col-md-12">
 												   <div class="btn-toolbar" role="toolbar">
-													  <a href="/timers/delete/{{ $timer->id }}" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+														<button class="btn btn-default" type="button" id="btnTimerComment{{$timer->id}}" onclick="saveTimerComment('{{$timer->id}}');"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
+														<a href="/timers/delete/{{ $timer->id }}" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
 												   </div>
 												</div>
 											 </div>

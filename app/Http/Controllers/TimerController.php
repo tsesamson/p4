@@ -104,6 +104,30 @@ class TimerController extends Controller
 		// Return the success JSON response
 		return response()->json($data, 200);
 	}
+	
+	/*
+	 * Start save the comment entered by user for the timer
+	 */
+	public function ajaxComment($id, Request $request)
+	{
+		$timer = Timer::findOrFail($id);
+		
+		// Check to see if timer and comment exists
+		if($timer && isset($_POST['comment'])) {
+			// Only update if the comment has changed
+			if($timer->comment != $request->input('comment')){
+				$timer->comment = $request->input('comment');
+				$timer->updated_at = Carbon::now();
+				$timer->save();
+			}
+		}
+		
+		$data = array('success' => 'Timer comment updated successfully.', 'timer' => $timer, 'input' => $request->input());
+		
+		// Return the success JSON response
+		return response()->json($data, 200);
+	}
+	
 
     /**
      * Show the form for creating a new resource.
