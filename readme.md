@@ -4,10 +4,10 @@
 <http://p4.samsontse.com>
 
 ## Description
-The purpose of this project is to create a task manager with time tracking abilities.
+The purpose of this project is to create a MVP task/project management tool with time tracking abilities.
 
 ## Demo/Screencast
-<http://www.screencast.com/t/UqFqlsCx>
+<http://screencast.com/t/PDcA7chh4M0>
 
 ## Details for teaching team
 The demo credential is demo/demo
