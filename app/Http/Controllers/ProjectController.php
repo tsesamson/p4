@@ -108,10 +108,8 @@ class ProjectController extends Controller
 			'projectId' => 'required|numeric',
 			'projectName' => 'required|min:1|max:255',
 			'projectDescription' => 'required|min:1|max:512',
-			'duration' => 'numeric',
-			'durationLimit' => 'numeric',
-			'startDate' => 'required|date',
-			'endDate' => 'required|date',
+			//'startDate' => 'required|date',
+			//'endDate' => 'required|date',
 			'dueDate' => 'required|date',
 
 		]);

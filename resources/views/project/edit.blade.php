@@ -51,18 +51,18 @@
                            <div class="col-md-6 col-md-offset-3">
 								<div class="form-group">
 								  <label for="duration">Duration:</label>
-								  <input type="text" class="form-control" id="duration" name="duration" maxlength="25" placeholder="0:00" value="{{ ($project->duration)?$project->duration:'' }}">
+								  <input type="text" class="form-control" id="duration" name="duration" maxlength="25" placeholder="0:00:00" value="{{ ($project->duration)?$project->duration:'' }}">
 								</div>
                            </div>
 
                            <div class="col-md-6 col-md-offset-3">
 								<div class="form-group">
 								  <label for="durationLimit">Duration Limit:</label>
-								  <input type="text" class="form-control" id="durationLimit" name="durationLimit" maxlength="25" placeholder="0:00" value="{{ ($project->duration_limit)?$project->duration_limit:'' }}">
+								  <input type="text" class="form-control" id="durationLimit" name="durationLimit" maxlength="25" placeholder="0:00:00" value="{{ ($project->duration_limit)?$project->duration_limit:'' }}">
 								</div>
                            </div>
 						   
-                           <div class="col-md-6 col-md-offset-3">
+                           <!--<div class="col-md-6 col-md-offset-3">
 								<div class="form-group">
 								  <label for="startDate">Start Date:</label>
 								  <input type="text" class="form-control" id="startDate" name="startDate" data-provide="datepicker" maxlength="15" placeholder="Start Date" value="{{$project->startDate()}}">								  
@@ -74,7 +74,7 @@
 								  <label for="endDate">End Date:</label>
 								  <input type="text" class="form-control" id="endDate" name="endDate" data-provide="datepicker" maxlength="15" placeholder="End Date" value="{{$project->endDate()}}">								  
 								</div>
-                           </div>
+                           </div>-->
 						   
                            <div class="col-md-6 col-md-offset-3">
 								<div class="form-group">
